@@ -28,7 +28,7 @@ const addTwoNumbers = (l1, l2) => {
   for (let i = 0; i <= listToIter.length-1; i++) {
     const a = l1[i];
     const b = l2[i];
-    const result = (a||0) + (b||0) + remainder;
+    const result = (a || 0) + (b || 0) + remainder;
     
     if (result > 9) {
       remainder = 1;
@@ -46,6 +46,12 @@ const addTwoNumbers = (l1, l2) => {
   return arr;
 };
 
-console.log(addTwoNumbers([2,4,3], [5,6,4]));
-console.log(addTwoNumbers([9,9,9,9,9,9,9], [9,9,9,9]));
-console.log(addTwoNumbers([0], [0]));
+/** 
+ * Run "bun test add_two_numbers/index.test.js" to assert these:
+ * 
+ * addTwoNumbers([2,4,3], [5,6,4]); => [7,0,8]
+ * addTwoNumbers([9,9,9,9,9,9,9], [9,9,9,9]); => [8,9,9,9,0,0,0,1]
+ * addTwoNumbers([0], [0]; => [0]
+ */
+
+export default addTwoNumbers;
