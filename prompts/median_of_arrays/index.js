@@ -25,7 +25,7 @@
  * This is because the function creates a new array by concatenating the two input arrays, which takes up O(n) space. 
  * Additionally, the function creates a new variable to store the index of the median element, which takes up O(1) space.
  */
-const slowMedOfArrays = (n1, n2) => {
+export const slowMedOfArrays = (n1, n2) => {
   const n3 = n1.concat(n2).sort();
   const medianIdx = Math.floor(n3.length / 2);
 
@@ -33,11 +33,8 @@ const slowMedOfArrays = (n1, n2) => {
   if (!(n3.length % 2 === 0)) return n3[medianIdx];
 
   // If even in length, add the two middle integers together and divide by 2.
-  return ( (n3[medianIdx-1] + n3[medianIdx]) / 2 );
+  return ((n3[medianIdx-1] + n3[medianIdx]) / 2);
 };
-
-// TODO: Create a faster function and learn how to do Time measurements in Bun tests. 
-// Then test both and spit the result in the console.
 
 /**
  * https://www.bigocalc.com/
@@ -55,16 +52,14 @@ const findMedianSortedArrays = (n1, n2) => {
   let x = 0;
   let y = 0;
 
-  for (let i = 0; i < totalLen; i++) {
+  for (let _i = 0; _i < totalLen; _i++) {
     // If we ran out of things to do on either array, then we can push the remaining items into
     // the sorted array from the unexhausted array. Those items left are all greater than the exhausted array's items.
     if (x > n1.length-1) {
-      n2.splice(0, y);
-      sortedArr.push(...n2);
+      sortedArr.push(...n2.slice(y));
       break;
     } else if (y > n2.length-1) {
-      n1.splice(0, x);
-      sortedArr.push(...n1);
+      sortedArr.push(...n1.slice(x));
       break;
     }
 
@@ -79,14 +74,10 @@ const findMedianSortedArrays = (n1, n2) => {
   }  
 
   if (totalLen % 2 === 0) {
-    return ( (sortedArr[medianIdx-1] + sortedArr[medianIdx]) / 2 );
+    return ((sortedArr[medianIdx-1] + sortedArr[medianIdx]) / 2);
   } else {
     return sortedArr[medianIdx];
   }
 };
 
-// console.log(slowMedOfArrays([1,3], [2]));
-// console.log(slowMedOfArrays([1,2], [3,4]));
-
-console.log(findMedianSortedArrays([1,3], [2]));
-console.log(findMedianSortedArrays([1,2], [3,4]));
+export default findMedianSortedArrays;
