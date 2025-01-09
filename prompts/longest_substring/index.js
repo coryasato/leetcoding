@@ -47,8 +47,16 @@ const lengthOfLongestSubstringDebug = (str) => {
   return entries;
 };
 
-// What this doesn't account for is equal length substrings. Naively, this code will return the first longest substring found.
-// EX: "abcabd" will return "abc".
+/**
+ * https://www.bigocalc.com/
+ * Time complexity is O(n), processsing each character in constant time.
+ * Space complexity is O(m).
+ */
+
+/**
+ * What this doesn't account for is equal length substrings. Naively, this code will return the first longest substring found.
+ * EX: "abcabd" will return "abc".
+*/
 const lengthOfLongestSubstring = (str) => {
   const strEnd = str.length-1;
 
@@ -75,7 +83,7 @@ const lengthOfLongestSubstring = (str) => {
     } else {
       res += char;
 
-      // If we're at the end of the loop, check to see if the current substring is a contendor for the answer.
+      // If we're at the end of the loop, check to see if the current substring is a contender for the answer.
       if (i === strEnd && res.length > answer.length) {
         answer = res;
       }
