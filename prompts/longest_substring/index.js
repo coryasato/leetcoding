@@ -3,22 +3,22 @@
  * Given a string s, find the length of the longest substring without repeating characters.
  *
  * Example 1:
-  * Input: s = "abcabcbb"
-  * Explanation: The answer is "abc", with the length of 3.
-  * Output: 3
-  * Example 2:
-  *
-  * Input: s = "bbbbb"
-  * Output: 1
-  * Explanation: The answer is "b", with the length of 1.
-  * Example 3:
-  *
-  * Input: s = "pwwkew"
-  * Output: 3
-  * Explanation: The answer is "wke", with the length of 3.
-  * Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ * Input: s = "abcabcbb"
+ * Explanation: The answer is "abc", with the length of 3.
+ * Output: 3
+ * Example 2:
  *
-*/
+ * Input: s = "bbbbb"
+ * Output: 1
+ * Explanation: The answer is "b", with the length of 1.
+ * Example 3:
+ *
+ * Input: s = "pwwkew"
+ * Output: 3
+ * Explanation: The answer is "wke", with the length of 3.
+ * Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+ *
+ */
 
 // This function is to debug and list all the substring entries that we find.
 const lengthOfLongestSubstringDebug = (str) => {
@@ -56,7 +56,7 @@ const lengthOfLongestSubstringDebug = (str) => {
 /**
  * What this doesn't account for is equal length substrings. Naively, this code will return the first longest substring found.
  * EX: "abcabd" will return "abc".
-*/
+ */
 const lengthOfLongestSubstring = (str) => {
   const strEnd = str.length-1;
 
