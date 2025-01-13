@@ -9,7 +9,7 @@ const cases = [
   [-1234567892, 0],
 ];
 
-describe("longestPalindrome", () => {
+describe("reverseInteger", () => {
   test.each(cases)("%p should contain values %p", (a, expected) => {
     expect(reverseInteger(a)).toBe(expected);
   });

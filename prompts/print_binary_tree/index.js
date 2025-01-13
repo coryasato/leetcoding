@@ -55,7 +55,8 @@ const buildTreeMap = (node, level=0, arr=[]) => {
   // Push the current node value to its respective level.
   arr[level].push(node.value);
 
-  // Traverse left to right.
+  // Traverse left to right. Left nodes get placed first in their arrays, followed by the right nodes.
+  // The "arr" param is being mutated via the push method, so we don't need to capture the returned value in the recursive calls.
   buildTreeMap(node.left, level+1, arr);
   buildTreeMap(node.right, level+1, arr);
 
@@ -65,7 +66,7 @@ const buildTreeMap = (node, level=0, arr=[]) => {
 const printTreeMap = () => {
   const res = buildTreeMap(tree.root).reduce((acc, levelArr) => {
     if (levelArr.every(n => n === 0)) return acc;  // Remove the last row of empty children nodes.
-    return acc += levelArr.join(', ').concat('\n');
+    return acc += levelArr.join(', ').concat('\n');  // Join each row, appending a line break
   }, '\n');
 
   console.log(res);
