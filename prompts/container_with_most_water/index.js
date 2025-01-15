@@ -27,11 +27,11 @@ const maxArea = (height) => {
     const area = ((b-a) * Math.min(front, back));
 
     res = Math.max(res, area);
-    if (front === back) break;
 
-    if (front < back) {
+    // The equal operator is important here to nudge things forward for cases like: [1,4,2,4,1].
+    if (front <= back) {
       a += 1;
-    } else if (front > back) {
+    } else {
       b -= 1;
     }
   }
