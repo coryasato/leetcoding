@@ -16,7 +16,6 @@
 const longestCommonPrefix = (strs) => {
   // Prompt constraint for strs.length and strs[i].length.
   const LEN_CONSTRAINT = 200;
-  const len = strs.length;
   let res = '';
   let abort = false;
 
