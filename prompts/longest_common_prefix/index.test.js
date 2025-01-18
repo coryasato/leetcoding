@@ -5,6 +5,7 @@ const cases = [
   [["flower","flow","flight"], 'fl'],
   [["dog","racecar","car"], ''],
   [["david bowie","david bowy","david bowee"], 'david bow'],
+  [["flow","flower","flowight"], 'flow'],
 ];
 
 describe("longest_common_prefix", () => {
