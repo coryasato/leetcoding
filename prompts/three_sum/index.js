@@ -26,26 +26,24 @@
 
 // This debug version helps visualize what the while loop is doing.
 // Essentially its going through each combinatory pattern building out a 2-d array:
-// [0,1,2], [0,1,3], [0,1,4], [0,1,5]
-// [0,2,3], [0,2,4], [0,2,5]
-// [0,3,4], [0,3,5]
-// [0,4,5]
-// ...etc
+// [
+//  [0,1,2], [0,1,3], [0,1,4], [0,1,5]
+//  [0,2,3], [0,2,4], [0,2,5]
+//  [0,3,4], [0,3,5]
+//  [0,4,5]
+//  ...etc
+// ]
 const threeSumDebug = (nums) => {
-  const results = {
-    answer: []
-  };
-
   // Short circuit the fn if we only have 3 items.
   if (nums.length === 3) {
-    if (nums[0] + nums[1] + nums[2] === 0) {
-      results.answer.push([nums[0], nums[1], nums[2]]);
-    }
-    return results.answer;
+    return ((nums[0] + nums[1] + nums[2]) === 0) ? [nums] : [];
   }
 
   const HARD_STOP = nums.length * nums.length;
   const endIdx = nums.length - 1;
+  const results = {
+    answer: []
+  };
 
   let count = 0;
   let entries = [];
@@ -62,6 +60,9 @@ const threeSumDebug = (nums) => {
     const b = nums[mid];
     const c = nums[right];
 
+    // If we have a matching sum of 0, sort the values then "hash" the values as a string.
+    // We use that for unique keys in the results object to avoid having to dedupe the final array.
+    // The results.answer array is again a short cut so we don't have to map over the object for its values.
     if (a + b + c === 0) {
       const arr = [a, b, c].sort((a, b) => a - b);
       const hash = arr.join('_');
@@ -77,6 +78,7 @@ const threeSumDebug = (nums) => {
       break;
     }
 
+    // The right cursor hit the end of the nums array, we need to shift the counters to start the next loop.
     if (right === endIdx) {
       // End of a full index group, move left forward, move mid ahead of new left and right ahead of new mid.
       if (mid === (right - 1)) {
@@ -92,11 +94,10 @@ const threeSumDebug = (nums) => {
       right = right + 1;
     }
 
-    // The counter and HARD_STOP is just a precaution.
-    count++;
+    count++;  // The count + HARD_STOP is just a precaution.
   }
 
-  console.log(entries);
+  console.log(entries);  // To double check the combinations via the loop are correct.
   return results.answer;
 };
 
@@ -110,22 +111,18 @@ const threeSumDebug = (nums) => {
 
 // https://www.bigocalc.com - The time complexity of the `threeSum` function is O(n^2), and the space complexity is O(n)
 const threeSum = (nums) => {
-  const results = {
-    answer: []
-  };
-
   // Short circuit the fn if we only have 3 items.
   if (nums.length === 3) {
-    if (nums[0] + nums[1] + nums[2] === 0) {
-      results.answer.push([nums[0], nums[1], nums[2]]);
-    }
-    return results.answer;
+    return ((nums[0] + nums[1] + nums[2]) === 0) ? [nums] : [];
   }
 
   const HARD_STOP = nums.length * nums.length;
   const endIdx = nums.length - 1;
-  let count = 0;
+  const results = {
+    answer: []
+  };
 
+  let count = 0;
   let left = 0;
   let mid = 1;
   let right = 2;
@@ -162,7 +159,7 @@ const threeSum = (nums) => {
       right = right + 1;
     }
 
-    count++;                     // The counter and HARD_STOP is just a precaution.
+    count++;                     // The count + HARD_STOP is just a precaution.
   }
 
   return results.answer;
