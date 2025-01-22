@@ -29,6 +29,15 @@ const LETTERS = [
   ['w','x','y', 'z'],
 ];
 
+/**
+  * We can return directly using a reducer or .flatMap, instead of reassigning the arr var and returning it.
+  *
+  * return lettersArr[idx].reduce((acc, letter) => {
+  *   return acc.concat(recurse(str.concat(letter), idx+1, arr));
+  * }, []);
+  *
+  * I left the forEach as it may be easier to read whats going on.
+*/
 const letterCombinations = (digits) => {
   if (digits === '') return [];
 
@@ -41,10 +50,9 @@ const letterCombinations = (digits) => {
       return arr.concat(str);
     }
 
-    const letters = lettersArr[idx];
-    for (let letter of letters) {
+    lettersArr[idx].forEach(letter => {
       arr = recurse(str.concat(letter), idx+1, arr);
-    }
+    });
 
     return arr;
   };
