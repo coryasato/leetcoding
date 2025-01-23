@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import threeSumClosest from './index';
+import threeSumClosest, {threeSumClosestLinear} from './index';
 
 const cases = [
   [[-1, 2, 1, 4], 4, 4],
@@ -12,5 +12,11 @@ const cases = [
 describe("three_sum_closest", () => {
   test.each(cases)("%p should contain value %p", (a,b,  expected) => {
     expect(threeSumClosest(a, b)).toBe(expected);
+  });
+});
+
+describe("threeSumClosestLinear", () => {
+  test.each(cases)("%p should contain value %p", (a,b,  expected) => {
+    expect(threeSumClosestLinear(a, b)).toBe(expected);
   });
 });
