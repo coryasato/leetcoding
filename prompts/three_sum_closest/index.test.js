@@ -10,13 +10,13 @@ const cases = [
 ];
 
 describe("three_sum_closest", () => {
-  test.each(cases)("%p should contain value %p", (a,b,  expected) => {
+  test.each(cases)("%p %p should be %p", (a ,b, expected) => {
     expect(threeSumClosest(a, b)).toBe(expected);
   });
 });
 
 describe("threeSumClosestLinear", () => {
-  test.each(cases)("%p should contain value %p", (a,b,  expected) => {
+  test.each(cases)("%p %p should be %p", (a, b, expected) => {
     expect(threeSumClosestLinear(a, b)).toBe(expected);
   });
 });
