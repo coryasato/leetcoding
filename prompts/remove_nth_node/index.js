@@ -32,8 +32,44 @@ const buildLinkedListFromArr = (arr) => {
   return ListNode(arr[0], buildLinkedListFromArr(arr.slice(1)));
 };
 
+// Thought of a cleaner solution where we do a recursive walk to the leaf node and set the target once we know the depth.
+// Then when we traverse back up through the stacks we look for the child's depth that matches the target to skip the node.
+// We're projecting into the res array for the end output.
+//
+// jsbench.me - 136M ops/s ± 5.05%
+// https://www.bigocalc.com/ - Time: O(L)  | Space: O(L)
+export const removeNthFromEndRec = (head, n) => {
+  const headNode = buildLinkedListFromArr(head);
+  let res = [];
+  let target = null;
+
+  const walk = ({node, depth=0}) => {
+    res.push(node.val);
+
+    if (node.next === null) {
+      target = (depth+1) - n;
+      return {node, depth};
+    }
+
+    const child = walk({node: node.next, depth: depth+1});
+    if (child.depth === target) {
+      node.next = node.next.next ? node.next.next : null;
+    }
+
+    return {node, depth};
+  };
+
+  walk({node: headNode});
+
+  //console.log(JSON.stringify(headNode, null, 2));
+  return res.slice(0, target).concat(res.slice(target+1));
+};
+
 // This is a bit arbitrary in JS since we could just .splice the initial head array at the index in a one liner.
 // But to follow the rules, we create a linked list of Nodes and iterate over the list of children until we hit a "leaf" node (node without a child).
+//
+// jsbench.me - 140M ops/s ± 3.68%
+// https://www.bigocalc.com/ - Time: O(L)  | Space: O(L)
 const removeNthFromEnd = (head, n) => {
   const headNode = buildLinkedListFromArr(head);
 
