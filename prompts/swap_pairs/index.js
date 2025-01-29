@@ -19,6 +19,40 @@
 
 import LinkedList, { ListNode } from "../../helpers/linked_list.js";
 
+export const swapPairsRecursive = (arr) => {
+  if (arr.length === 0) return arr;
+
+  let head = LinkedList(arr);
+  let res = [];
+
+  const recurse = (node, depth=1) => {
+    if (node === null) return node;
+
+    if (depth % 2 !== 0) {       // If depth is even, process the current and next nodes.
+      if (node.next !== null) {  // This condition is stricly for the res array. If we didn't need to allot the vals, then we could remove it.
+        let a = node;
+        let b = node.next;
+        const nextMemo = b.next;   // Memoize the chain going forward (curentNode.next.next). Its going to be a node or null.
+
+        node = b;
+        node.next = a;
+        a.next = nextMemo;       // Assign the rest of the chain to the next node.
+
+        res = res.concat(node.val, node.next.val);
+      } else {
+        res = res.concat(node.val);
+      }
+    }
+
+    node.next = recurse(node.next, depth+1);
+    return node;
+  };
+
+  const list = recurse(head);
+  // console.log(JSON.stringify(list, null, 2));
+  return res;
+};
+
 const swapPairs = (arr) => {
   if (arr.length === 0) return arr;
 
