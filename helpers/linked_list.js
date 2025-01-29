@@ -1,4 +1,4 @@
-export const ListNode = (val, next) => ({
+export const ListNode = (val, next=null) => ({
   val,
   next
 });

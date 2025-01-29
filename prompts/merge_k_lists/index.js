@@ -26,7 +26,39 @@
 
 import LinkedList, { ListNode } from "../../helpers/linked_list.js";
 
-const mergeNodes = (n1, n2) => {
+export const mergeKListsBrute = (listsArr) => {
+  if (listsArr.length === 0) return [];
+
+  const lists = listsArr.map(arr => LinkedList(arr));
+  let heap = [];
+
+  for (var i = 0; i <= lists.length-1; i++) {
+    let node = lists[i];
+
+    while (node !== null) {
+      heap.push(node);
+      node = node.next;
+    }
+  }
+
+  let head = ListNode(null);
+  let res = [];
+  heap
+    .sort((n1, n2) => n1.val - n2.val)
+    .reduce((acc, n) => {
+      res.push(n.val);
+
+      acc.next = n;
+      acc = acc.next;
+      return acc;
+    }, head);
+  head = head.next;
+
+  // console.log(JSON.stringify(head, null, 2));
+  return res;
+};
+
+const _mergeNodes = (n1, n2) => {
   let res = ListNode(null);  // Host node for the new list.
   let curr = res;            // Iterator
 
@@ -71,7 +103,7 @@ const mergeKLists = (listsArr) => {
     let left = recurse(arr, start, mid);
     let right = recurse(arr, mid+1, end);
 
-    return mergeNodes(left, right);
+    return _mergeNodes(left, right);
   };
 
   const head = recurse(lists, 0, lists.length-1);
