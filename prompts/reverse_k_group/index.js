@@ -98,8 +98,81 @@ const reverseKGroupBrute2 = (arr, k) => {
   return res;
 };
 
-const reverseKGroup = () => {
+// Recursive attempt. The space is still O(n) here and its basically a similar approach to the brute force fns. Trying for O(1) space.
+// The code is forced to be linearly iterative due to the linked list.
+export const reverseKGroupRecursive = (arr, k) => {
+  let head = LinkedList(arr);
 
+  let host = ListNode(null);
+  let temp = host;
+  let res = [];
+
+  const recurse = (node, arr=[]) => {
+    if (node === null) return node;
+
+    arr.push(node);
+
+    if (arr.length === k || node.next === null) {
+      const nodes = (arr.length === k) ? arr.reverse() : arr;
+
+      res = res.concat(nodes.map(n => n.val));
+      temp.next = sortNodes(nodes);
+      arr = [];
+
+      while (node.next !== null && temp.next !== null) {
+        temp = temp.next;
+      }
+    }
+
+    recurse(node.next, arr);
+    return node;
+  };
+
+  recurse(head);
+//   console.log('TTT', JSON.stringify(host.next, null, 2));
+  return res;
+};
+
+// Time: O(N) | Space: O(1)
+// Pointers, pointers, pointers!
+const reverseKGroup = (arr, k) => {
+  let head = LinkedList(arr);
+  let host = ListNode(null);
+  host.next = head;
+
+  let prev = host;
+  let curr = null;
+  let next = null;
+
+  let count = 0;
+  while (head !== null) {
+    count++;
+    head = head.next;
+  }
+
+  while (count >= k) {
+    curr = prev.next;  // First node of group
+    next = curr.next;  // Second node of group
+
+    for (let i = 1; i < k; i++) {
+      curr.next = next.next;
+      next.next = prev.next;
+      prev.next = next;
+      next = curr.next;
+    }
+    prev = curr;
+    count -= k;
+  }
+
+  // Dig to up all the values into an array.
+  let res = [];
+  curr = host.next;
+  while (curr !== null) {
+    res.push(curr.val);
+    curr = curr.next;
+  }
+//   console.log(JSON.stringify(host.next, null, 2));
+  return res;
 };
 
 export default reverseKGroup;
