@@ -9,7 +9,7 @@ const cases = [
 ];
 
 describe("longest_common_prefix", () => {
-  test.each(cases)("%p should contain values %p", (a, expected) => {
+  test.each(cases)("%p should be %p", (a, expected) => {
     expect(longestCommonPrefix(a)).toBe(expected);
   });
 });

@@ -8,13 +8,13 @@ const cases = [
 ];
 
 describe("merge_k_lists", () => {
-  test.each(cases)("%p should contain values %p", (a, expected) => {
-    expect(mergeKLists(a)).toContainValues(expected);
+  test.each(cases)("%p should equal array %p", (a, expected) => {
+    expect(mergeKLists(a)).toEqual(expected);
   });
 });
 
 describe("merge_k_lists::mergeKListsBrute", () => {
-  test.each(cases)("%p should contain values %p", (a, expected) => {
-    expect(mergeKListsBrute(a)).toContainValues(expected);
+  test.each(cases)("%p should equal array %p", (a, expected) => {
+    expect(mergeKListsBrute(a)).toEqual(expected);
   });
 });
