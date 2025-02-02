@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import firstInString from './index';
 
-const _ = "_";
 const cases = [
   ['sadbutsad', 'sad', 0],
   ['leetcode', 'leeto', -1],

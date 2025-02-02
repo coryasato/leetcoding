@@ -9,13 +9,13 @@ const cases = [
 ];
 
 describe("swap_pairs", () => {
-  test.each(cases)("%p should contain values %p", (a, expected) => {
-    expect(swapPairs(a)).toContainValues(expected);
+  test.each(cases)("(arr=%o) should equal array %o", (a, expected) => {
+    expect(swapPairs(a)).toEqual(expected);
   });
 });
 
 describe("swap_pairs::swapPairsRecursive", () => {
-  test.each(cases)("%p should contain values %p", (a, expected) => {
-    expect(swapPairsRecursive(a)).toContainValues(expected);
+  test.each(cases)("(arr=%o) should equal array %o", (a, expected) => {
+    expect(swapPairsRecursive(a)).toEqual(expected);
   });
 });
