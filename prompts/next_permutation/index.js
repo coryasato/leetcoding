@@ -24,7 +24,6 @@
 // Input: nums = [1,1,5]
 // Output: [1,5,1]
 
-// TODO: Make helpers for reversing and swapping for mutating the array to meet the conditions of the prompt.
 const nextPermutation = (nums) => {
   const len = nums.length-1;
   let pivot = -1;

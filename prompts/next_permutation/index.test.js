@@ -5,7 +5,7 @@ const cases = [
   [[1,2,3], [1,3,2]],
   [[3,2,1], [1,2,3]],
   [[1,1,5], [1,5,1]],
-  [[1,2,3,6,4], [1,2,4,3,6]],  // TODO: Make a purmute helper that takes in an array and returns the next lexical permutation. Use that for the expected var.
+  [[1,2,3,6,4], [1,2,4,3,6]],
 ];
 
 describe("next_permutation", () => {
