@@ -21,23 +21,23 @@
 
 const search = (nums, target) => {
   const binary = (left, right) => {
-    if (left >= right) return -1;
+    if (left > right) return -1;
 
     const mid = Math.floor(left + (right - left) / 2);
 
     if (nums[mid] === target) {
       return mid;
-    } else if (nums[mid] >= target) {
-      if (nums[mid] > nums[mid+1] && nums[mid+1] < nums[right]) {
-        return binary(mid+1, right);
-      } else {
+    } else if (nums[left] <= nums[mid]) {
+      if (target >= nums[left] && target < nums[mid]) {
         return binary(left, mid);
+      } else {
+        return binary(mid+1, right);
       }
     } else {
-      if (nums[mid] < nums[mid+1] && nums[mid] < nums[left]) {
-        return binary(left, mid);
-      } else {
+      if (target > nums[mid] && target <= nums[right]) {
         return binary(mid+1, right);
+      } else {
+        return binary(left, mid);
       }
     }
   };
