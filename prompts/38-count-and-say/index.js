@@ -25,44 +25,35 @@
 
 // Follow up: Could you solve it iteratively?
 
-const countAndSay = (int) => {
-  let acc = '1';  // Pre-seed a count to skip the loop if its not needed.
+const _RLE = (str) => {
+  let res = '';
+  let left = 0;
+  let right = 0;
 
-  // Start the loop and int-1 due to the pre-seed.
-  // Each while loop will overwrite the accumulator to its RLE value.
-  while ((int-1) > 0) {
-    let full = '';
-    let temp = '';
+  while (right < str.length) {
+    const curr = str[right];
+    const next = str[right+1] || null;
 
-    for (let i = 0; i < acc.length; i++) {
-      const num = acc[i];
-      // If the current num is repeating from the last, store it in the temp string for later processing.
-      // Otherwise set the temp to the current num.
-      if (temp[i-1] === num) {
-        temp = temp.concat(num);
-      } else {
-        // If we have past repeating nums in temp, apply the RLE algo to nums and add it to the full variable.
-        // This needs to be done before resetting the temp variable.
-        if (temp.length > 0) {
-          full = full.concat(`${temp.length}${temp[0]}`);
-        }
-        temp = num;
-      }
-
-      // If we're at the end of the loop, we'll either have nums in the temp var to append, or if none, append the current num to its RLE value.
-      if (i === acc.length-1) {
-        if (temp.length > 0) {
-          full = full.concat(`${temp.length}${temp[0]}`);
-        } else {
-          full = full.concat(`1${num}`);
-        }
-      }
+    if (curr === next) {
+      right++;
+    } else {
+      const combo = str.slice(left, right+1);
+      res = res.concat(`${combo.length}${combo[0]}`);
+      right++;
+      left = right;
     }
-
-    acc = full;
-    int--;
   }
 
+  return res;
+};
+
+const countAndSay = (int) => {
+  let acc = '1';  // Pre-seed a count to skip the loop if its not needed.
+  // Start the loop and int-1 due to the pre-seed.
+  while ((int-1) > 0) {
+    acc = _RLE(acc);
+    int--;
+  }
   return acc;
 };
 
