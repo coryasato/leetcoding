@@ -26,10 +26,10 @@ const jump = (nums) => {
 
     // If the current number and index combined exceeds the length of the array, then we are done jumping.
     if ((nums.length - (i + num)) <= 0) { break; }
+
     // Increment a jump.
     jumps++;
 
-    let count = 1;
     let largest = 0;
     let jumpTo = 0;
 
@@ -41,18 +41,18 @@ const jump = (nums) => {
     //     Index 1 with a value of 5 (1+5), will be a better jump than:
     //     Index 3 with a value of 1 (3+1)
     //     Result: Index 1 of value 5 will allow us to jump further in the next tick than index 3.
-    while ((count <= num) && ((i + count) < nums.length)) {
-      const next = nums[i + count];
+    for (let j = i + 1; j <= (i + num) && j < nums.length; j++) {
+      const next = nums[j];
 
-      if ((next + i + count) > largest) {
-        largest = (next + i + count);
-        jumpTo = i + count;
+      if ((next + j) > largest) {
+        largest = next + j;
+        jumpTo = j;
       }
-
-      count++;
     }
-    // Jump forward to the next best index.
-    i = jumpTo-1;
+    // Jump forward to the next best index if a forward index is found. We should only be moving forward.
+    if (jumpTo > i) {
+      i = jumpTo-1;
+    }
   }
 
   return jumps;
