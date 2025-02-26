@@ -14,7 +14,7 @@
 // Input: head = [1,2,3,4,5], k = 3
 // Output: [3,2,1,4,5]
 
-import LinkedList, { ListNode } from "../../helpers/linked_list.js";
+import LinkedList, { ListNode } from "../../helpers/linked-list.js";
 
 // Similar the Brute2, but uses one loop to gather the result values and rebuilds the list linearly.
 // https://www.bigocalc.com/ - Time O(n) | Space O(n)

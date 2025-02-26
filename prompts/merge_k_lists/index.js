@@ -24,7 +24,7 @@
 // Input: lists = [[]]
 // Output: []
 
-import LinkedList, { ListNode } from "../../helpers/linked_list.js";
+import LinkedList, { ListNode } from "../../helpers/linked-list.js";
 
 export const mergeKListsBrute = (listsArr) => {
   if (listsArr.length === 0) return [];

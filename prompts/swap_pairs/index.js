@@ -17,7 +17,7 @@
 // Input: head = [1,2,3]
 // Output: [2,1,3]
 
-import LinkedList, { ListNode } from "../../helpers/linked_list.js";
+import LinkedList, { ListNode } from "../../helpers/linked-list.js";
 
 export const swapPairsRecursive = (arr) => {
   if (arr.length === 0) return arr;

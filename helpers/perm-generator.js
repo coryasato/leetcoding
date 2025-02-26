@@ -1,4 +1,5 @@
 // https://stackoverflow.com/questions/66108781/finding-all-permutations-of-array-elements-as-concatenated-strings/66130419#66130419
+
 const permutations = function*(arr) {
   if (arr.length < 2) {
     yield arr;
@@ -50,13 +51,12 @@ export const printPerms = (arr, fn=()=>true) => {
 
 // Pretty cool! Here we pass a conditional fn to print the permutations only if
 // a monkey comes before a chicken in an array.
-const printAnimals = () => {
-  const animals = ["🐒", "🐀", "🐓", "🐝"];
-  printPerms(animals, (perm) => {
-    return perm.indexOf("🐒") < perm.indexOf("🐓");
-  })
-};
-
-printAnimals();
+// const printAnimals = () => {
+//   const animals = ["🐒", "🐀", "🐓", "🐝"];
+//   printPerms(animals, (perm) => {
+//     return perm.indexOf("🐒") < perm.indexOf("🐓");
+//   })
+// };
+// printAnimals();
 
 export default permutations;
