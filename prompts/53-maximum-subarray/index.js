@@ -17,6 +17,37 @@
 // Output: 23
 // Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
 
+// This helper uses a divide and conquer strategy but its slower than the one used in the main fn.
+// Left this here as asks if we could do the prompt w/ this strategy.
+// One optimization we could make here to both strats is:
+// 1) Do not store all sub arrays as it takes up alot of space, potentially.
+// 2) Calcluate the sum in the gathering part of the algo and update a integer variable if the sum of the array is larger than the variable.
+const _getAllSubArraysRecursive = (arr) => {
+  let subArrays = [];
+
+  const getSubs = (left, right) => {
+    if (left > right) return;
+    if (left === right) {
+      subArrays.push([arr[left]]);
+      return;
+    }
+
+    const mid = Math.floor((left + right) / 2);
+
+    getSubs(left, mid);
+    getSubs(mid + 1, right);
+
+    for (let i = left; i <= mid; i++) {
+      for (let j = mid + 1; j <= right; j++) {
+        subArrays.push(arr.slice(i, j + 1));
+      }
+    }
+  };
+
+  getSubs(0, arr.length-1);
+  return subArrays;
+};
+
 const _getAllSubArrays = (arr) => {
   let subArrays = [];
 
