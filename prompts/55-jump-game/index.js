@@ -32,4 +32,3 @@ const jumpGame = (nums) => {
 };
 
 export default jumpGame;
-
