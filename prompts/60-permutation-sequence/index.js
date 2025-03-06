@@ -25,15 +25,15 @@
 
 const getPermutation = (n, k) => {
   const nums = Array.from(new Array(n).keys(), (n) => (n + 1));
-  const permute = (str, arr=[]) => {
-    if (str.length === 0) return [[]];
+  const permute = (iter, arr=[]) => {
+    if (iter.length === 0) return [[]];
 
-    for (let i = 0; i < str.length; i++) {
-      const remaining = str.slice(0, i).concat(str.slice(i + 1));
+    for (let i = 0; i < iter.length; i++) {
+      const remaining = iter.slice(0, i).concat(iter.slice(i + 1));
       const perms = permute(remaining);
 
       for (const perm of perms) {
-        arr.push([str[i], ...perm]);
+        arr.push([iter[i], ...perm]);
       }
     }
 
