@@ -45,6 +45,21 @@
 //   "do                  "
 // ]
 
+// NOTES:
+// Thoughts on how to make this faster:
+// 1.   Do everything in the first loop.
+// 1.a. Make a buildSentence function that does what the container.forEach logic is doing. Pass in the all data including an arg for lastWord in words.
+// 1.b. When we create a newBucket in the first if statement, call the buildSentence with the current bucket and store the result as a new row in a "results" array var.
+// 1.c. Instead of a dict of objects (container), we can just use 1 host object at a time. When we are done building the sentence for the row, overwrite
+//      the variable with the new bucket instead of pushing it to a host container. This will reduce space / mem use.
+// 1.d. After the first if/else statement, add an additional if (isLastWord), call the buildSentence fn with the variable so the fn knows to pad-right
+//      and push the string to the "results" array.
+// 1.e. Return the "results" arr.
+//
+// Result: This will reduce the amount of memory the "container" variable will use down from multiple objects to only one at a time and remove 2 loops.
+// Faster: Do not store the words in each bucket, it causes us to use more space via the array. We can build out the sentence string ahead of time
+//         and memoize how many words we have inserted. Then we know how many spaces we've used and math out how many spaces left to insert in the final loop
+//         to build out the padded sentence.
 const fullJustify = (words, maxWidth) => {
   let container = [
     {
