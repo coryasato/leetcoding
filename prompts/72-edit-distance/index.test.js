@@ -4,6 +4,8 @@ import editDistance from './index';
 const cases = [
   ['horse', 'ros', 3],
   ['intention', 'execution', 5],
+  ['tel', 'hello', 3],
+  ['', 'world', 5],
 ];
 
 describe("edit-distance", () => {

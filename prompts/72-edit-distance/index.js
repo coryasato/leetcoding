@@ -27,21 +27,28 @@
 // exection -> execution (insert 'u')
 
 const editDistance = (w1, w2) => {
+  if (w1.length === 0) return w2.length;
+
+  const wordToIterate = w1.length > w2.length ? w1 : w2;
   let edits = 0;
 
-  for (let i = 0; i < w1.length; i++) {
+  for (let i = 0; i < wordToIterate.length; i++) {
     if (w1 === w2) break;
 
-    const char1 = w1[i];
+    const char1 = w1[i] || null;
     const char2 = w2[i] || null;
 
     if (char2 === null) {
       w1 = w1.slice(0, i);
       edits++;
       break;
+    } else if (w1 === null) {
+      w1 = w1 + w2.slice(i);
+      edits += w2.length - i;
+      break;
     } else if (char1 !== char2) {
       w1 = w1.slice(0, i) + char2 + w1.slice(i+1);
-      edits++;``
+      edits++;
     }
   }
 
