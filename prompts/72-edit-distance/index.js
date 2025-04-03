@@ -26,6 +26,31 @@
 // exention -> exection (replace 'n' with 'c')
 // exection -> execution (insert 'u')
 
+// Dynamic programming solution. I followed along a tut for this one.
+export const minDistance = (w1, w2) => {
+  if (w1.length === 0) return w2.length;
+
+  let matrix = Array.from(new Array(w1.length), () => Array.from(new Array(w2.length), () => 0));
+  matrix[0] = matrix[0].map((_, i) => i);
+  matrix = matrix.map((arr, i) => {
+    arr[0] = i;
+    return arr;
+  });
+
+  for (let i = 1; i < w1.length; i++) {
+    for (let j = 1; j < w2.length; j++) {
+      if (w1[i-1] === w2[j-1]) {
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i-1][j-1], Math.min(matrix[i-1][j], matrix[i][j-1])) +1;
+      }
+    }
+  }
+
+  return matrix[w1.length-1][w2.length-1];
+};
+
+// First solution that came to my mind. Not sure why we need to do a DP solution when we can iterate directly?
 const editDistance = (w1, w2) => {
   if (w1.length === 0) return w2.length;
 
