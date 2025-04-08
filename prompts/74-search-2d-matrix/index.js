@@ -18,27 +18,39 @@
 
 const searchMatrix = (matrix, target) => {
   let targetExists = false;
+  let start = 0;
+  let end = matrix.length-1;
 
-  for (let i = 0; i < matrix.length; i++) {
-    const row = matrix[i];
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2);
 
-    if (row[0] <= target && row[row.length-1] >= target) {
-      // Target should be in this row.
-      let arr = row;
-      while (arr.length > 1) {
-        const midIdx = arr.length % 2 === 0 ? Math.floor(arr.length / 2) : (Math.floor(arr.length / 2) + 1);
+    if (matrix[mid][0] <= target && matrix[mid][matrix[mid].length-1] >= target) {
+      // Potential row found for target.
+      const arr = matrix[mid];
+      let head = 0;
+      let tail = arr.length-1;
+
+      while (head < tail) {
+        const midIdx = Math.floor((head + tail) / 2);
 
         if (arr[midIdx] === target) {
           targetExists = true;
           break;
         } else if (arr[midIdx] > target) {
-          arr = arr.slice(0, midIdx);
-        } else if (arr[midIdx] < target) {
-          arr = arr.slice(midIdx);
+          tail = midIdx;
+        } else {
+          head = midIdx+1;
         }
       }
-      // Stop processing the outer loop, the correct row has already been processed.
+
+      // Break the outer loop.
       break;
+    } else if (matrix[mid][0] > target) {
+      // Looks in the first half of the array.
+      end = mid;
+    } else {
+      // Looks in the last half of the array.
+      start = mid+1;
     }
   }
 
