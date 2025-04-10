@@ -20,14 +20,14 @@
 // Explanation: Both 'a's from t must be included in the window.
 // Since the largest window of s only has one 'a', return empty string.
 
+// NOTE: Arguments consist of both lowercase and uppercase letters.
+
 // TODO:
 // Looking at this code, we can refactor the "reduce" loop to all happen inline in the first for loop.
 // 1) We can set a result var as an empty string, utilizing its length for the len memo.
 // 2) Only process the indexes when indexes[ii] has a length of t.length (complete char match) and just slice the substring as soon as we can.
 // 3) The current time complexity is O(m * n) because of the mapping fn over the entries array. The above will not fix that to get us to O(m + n).
-
-// NOTE: Arguments consist of both lowercase and uppercase letters.
-const minWindow = (s, t) => {
+const minWindowOne= (s, t) => {
   if (s.length < t.length) return '';
   if (s.length === t.length && s === t) return s;
 
@@ -66,6 +66,69 @@ const minWindow = (s, t) => {
   // Below is for debugging.
   // console.log({entries, indexes, s, results});
   return results.result;
+};
+
+
+// Attempt 2:
+// Using two pointers and a sliding window approach.
+// BigOCalc: Time: O(n * m) | Space O(m)
+const _removeLetter = (str, letter) => {
+  const idx = str.indexOf(letter);
+  return str.slice(0, idx) + str.slice(idx+1);
+};
+
+const minWindow = (s, t) => {
+  if (s.length < t.length) return '';
+  if (s.length === t.length && s === t) return s;
+
+  let left = 0;
+  let right = 0;
+  let substring = '';
+  let tClone = t;
+
+  while (left < s.length-1) {
+    if (tClone.length < t.length) {
+      // IN A WINDOW
+      const char = s[right];
+
+      if (tClone.includes(char)) {
+        tClone = _removeLetter(tClone, char);
+      }
+
+      if (tClone.length === 0) {
+        // If we exhausted all the letters in "t", then we have a match.
+        const str = s.slice(left, right+1);
+        if (substring === '' || str.length < substring.length) {
+          substring = str;
+        }
+        // Reset left and move forward.
+        left++;
+        right = left;
+        tClone = t;
+      } else if (right === s.length-1) {
+        // We hit the end of the string, move left forward and reset other vars.
+        left++;
+        right = left;
+        tClone = t;
+      } else {
+        // Move forward through the window.
+        right++;
+      }
+    } else {
+      // NOT IN A WINDOW
+      const char = s[left];
+
+      if (t.includes(char)) {
+        tClone = _removeLetter(tClone, char);
+        right = left + 1;
+      } else {
+        left++;
+        right = left + 1;
+      }
+    }
+  }
+
+  return substring;
 };
 
 export default minWindow;
