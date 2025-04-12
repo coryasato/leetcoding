@@ -22,7 +22,7 @@
 
 // NOTE: Arguments consist of both lowercase and uppercase letters.
 
-// TODO:
+// Attempt 1:
 // Looking at this code, we can refactor the "reduce" loop to all happen inline in the first for loop.
 // 1) We can set a result var as an empty string, utilizing its length for the len memo.
 // 2) Only process the indexes when indexes[ii] has a length of t.length (complete char match) and just slice the substring as soon as we can.
@@ -129,6 +129,55 @@ const minWindow = (s, t) => {
   }
 
   return substring;
+};
+
+// Gemini 2.0 Flash code for O(m + n) solution.
+// Thoughts:
+// This is like a mash up of my two attempts. The use of maps with counters is the key to this solution. Clever abstraction.
+const minWindowOptimized = (s, t) => {
+  if (t.length === 0) return "";
+  if (s.length < t.length) return "";
+
+  const tFreq = {};
+  for (const char of t) {
+    tFreq[char] = (tFreq[char] || 0) + 1;
+  }
+
+  let left = 0;
+  let right = 0;
+  let minLen = Infinity;
+  let windowStart = 0;
+  let matched = 0;
+  const required = Object.keys(tFreq).length;
+
+  const sFreq = {};
+
+  while (right < s.length) {
+    const char = s[right];
+    sFreq[char] = (sFreq[char] || 0) + 1;
+
+    if (tFreq[char] && sFreq[char] === tFreq[char]) {
+      matched++;
+    }
+
+    while (left <= right && matched === required) {
+      const windowLen = right - left + 1;
+      if (windowLen < minLen) {
+        minLen = windowLen;
+        windowStart = left;
+      }
+
+      const leftChar = s[left];
+      sFreq[leftChar]--;
+      if (tFreq[leftChar] && sFreq[leftChar] < tFreq[leftChar]) {
+        matched--;
+      }
+      left++;
+    }
+    right++;
+  }
+
+  return minLen === Infinity ? "" : s.substring(windowStart, windowStart + minLen);
 };
 
 export default minWindow;
