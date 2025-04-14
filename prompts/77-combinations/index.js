@@ -15,6 +15,42 @@
 // Output: [[1]]
 // Explanation: There is 1 choose 1 = 1 total combination.
 
+// Recursive, "backtracking" solution with projecting into an array.
+const combineR = (n, k) => {
+  let result = [];
+
+  const backtrack = (start, curr) => {
+    if (curr.length === k) {
+      result.push([...curr]);
+      return;
+    }
+
+    for (var i = start; i <= n; i++) {
+      curr.push(i);
+      backtrack(i + 1, curr);
+      curr.pop();
+    }
+  };
+
+  backtrack(1, []);
+  return result;
+};
+
+// Recursive, "backtracking" solution in a functional style via flatMap.
+const combineR2 = (n, k) => {
+  const backtrack = (start, curr) => {
+    if (curr.length === k) {
+      return [curr.slice()];
+    }
+
+    return Array.from(new Array(n - start + 1), (_, i) => i + start)
+      .flatMap(i => backtrack(i + 1, [...curr, i]));
+  };
+
+  return backtrack(1, []);
+};
+
+// Iterative solution, more effecient memory wise than recursive, but slower due to the inner loop. Safer for large inputs.
 const combine = (n, k) => {
   if (n === 1) return [[n]];
 
