@@ -12,6 +12,46 @@
 // Input: nums = [0]
 // Output: [[],[0]]
 
+// This fn is Grok code. Studying efficient ways for large inputs.
+function subsetsBitMask(nums) {
+  const n = nums.length;
+  const result = [];
+
+  // Iterate from 0 to 2^n - 1
+  for (let mask = 0; mask < (1 << n); mask++) {
+      const subset = [];
+      // Check each bit
+      for (let i = 0; i < n; i++) {
+          if (mask & (1 << i)) { // If i-th bit is set, include nums[i]
+            subset.push(nums[i]);
+            console.log({num: nums[i], subset});
+          }
+      }
+
+      result.push(subset);
+  }
+
+  return result;
+}
+
+// Recursive case with "exclude" / "include", backtracking.
+const subsetsR = (nums) => {
+  const recurse = (idx, arr) => {
+    if (idx === nums.length) {
+      return [arr.slice()];
+    }
+
+    return [
+      ...recurse(idx + 1, arr),
+      ...recurse(idx + 1, [...arr, nums[idx]])
+    ];
+  };
+
+  return recurse(0, []);
+};
+
+// Iterative, using cursors.
+// Time & Space: O(2^n)
 const subsets = (nums) => {
   let res = [[]];
 
