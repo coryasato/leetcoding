@@ -18,17 +18,17 @@ function subsetsBitMask(nums) {
   const result = [];
 
   // Iterate from 0 to 2^n - 1
+  // If: (n === 3); then: (1 << n) === 8; ((3*3)-1); There will be 8 entries total.
   for (let mask = 0; mask < (1 << n); mask++) {
-      const subset = [];
-      // Check each bit
-      for (let i = 0; i < n; i++) {
-          if (mask & (1 << i)) { // If i-th bit is set, include nums[i]
-            subset.push(nums[i]);
-            console.log({num: nums[i], subset});
-          }
+    const subset = [];
+    // Check each bit
+    for (let i = 0; i < n; i++) {
+      if (mask & (1 << i)) {  // If i-th bit is set, include nums[i]
+        subset.push(nums[i]);
       }
+    }
 
-      result.push(subset);
+    result.push(subset);
   }
 
   return result;
