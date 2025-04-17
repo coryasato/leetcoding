@@ -6,8 +6,6 @@ const cases = [
   [[0,0,1,1,1,1,2,3,3], { k: 7, array: [0,0,1,1,2,3,3,"_","_"] }],
 ];
 
-const filterUnderscores = nums => nums.filter(n => n === '_');
-
 describe("remove-dupes-2", () => {
   test.each(cases)("(nums=%o) should be %o", (a, expected) => {
     expect(removeDuplicates(a)).toBe(expected.k);
