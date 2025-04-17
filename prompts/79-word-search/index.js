@@ -16,6 +16,11 @@
 // Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
 // Output: false
 
+// Thoughts: Kinda messy!
+// 1) We can move the crawling logic to another fn, then loop over the startingIdx's instead, until one returns true.
+// 2) Move the seenMap "ID" logic to it own fn to make the template literals less noisy.
+// 3) Move the out of bounds logic to its own fn.
+
 /**
  * @param {character[][]} board
  * @param {string} word
@@ -33,13 +38,13 @@ const exist = (board, word) => {
     });
     return acc;
   }, []);
+
   // Short circuit if the first letter of the word does not exist on the board.
   if (startingIdxs.length === 0) return false;
 
   let { i, j } = startingIdxs[0];
-  let seenMap = {};
-  // Remove each startingIdx once assigned to "i, j".
-  startingIdxs = startingIdxs.slice(1);
+  let seenMap = {};                      // Memoize used cells. We can't use the same cell twice.
+  startingIdxs = startingIdxs.slice(1);  // Remove each startingIdx once assigned to "i, j".
 
   while (word.length > 0) {
     word = word.slice(1);
@@ -53,13 +58,13 @@ const exist = (board, word) => {
     // Search all possible directions to see if the nextChar is available. If so, move towards that index.
     // If not, then either try another pair of starting indices, if they exist.
     // Otherwise, break the loop.
-    if ((j+1 < board[i].length) && board[i][j+1] === nextChar && !seenMap.hasOwnProperty([`${i}-${j+1}`])) {  // RIGHT
+    if ((j + 1 < board[i].length) && board[i][j+1] === nextChar && !seenMap.hasOwnProperty([`${i}-${j+1}`])) {      // RIGHT
       j++;
-    } else if ((i+1 < board.length) && board[i+1][j] === nextChar && !seenMap.hasOwnProperty([`${i+1}-${j}`])) {  // DOWN
+    } else if ((i + 1 < board.length) && board[i+1][j] === nextChar && !seenMap.hasOwnProperty([`${i+1}-${j}`])) {  // DOWN
       i++;
-    } else if ((j - 1 >= 0) && board[i][j-1] === nextChar && !seenMap.hasOwnProperty([`${i}-${j-1}`])) {  // LEFT
+    } else if ((j - 1 >= 0) && board[i][j-1] === nextChar && !seenMap.hasOwnProperty([`${i}-${j-1}`])) {          // LEFT
       j--;
-    } else if ((i - 1 >= 0) && board[i-1][j]  === nextChar && !seenMap.hasOwnProperty([`${i-1}-${j}`])) {  // UP
+    } else if ((i - 1 >= 0) && board[i-1][j]  === nextChar && !seenMap.hasOwnProperty([`${i-1}-${j}`])) {         // UP
       i--;
     } else if (startingIdxs.length > 0) {
       // Reset the search to the next starting indices.
