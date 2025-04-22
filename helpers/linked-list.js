@@ -16,6 +16,10 @@ export const linkedListToArray = (list) => {
   return res;
 };
 
+export const stringifyList = (list, pretty=2) => {
+  return JSON.stringify(list, null, pretty);
+};
+
 /**
  * @param {arity[]} arr
  * @return {LinkedList}
