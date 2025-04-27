@@ -18,7 +18,6 @@
 // Thoughts:
 // Tried to do this in one loop through the matrix where we visit each cell only once.
 // The trade-off is the memory used in the "combos" object and other combo arrays.
-// xAxisCombo could be an Integer instead of an array.
 const maximalRectangle = (matrix) => {
   // Short circuit for one row. The rest of the fn relies on 2 or more rows.
   if (matrix.length === 1) return matrix[0].filter(item => item === '1').length;
@@ -35,6 +34,8 @@ const maximalRectangle = (matrix) => {
         // Below will handle repeating "1"s on a single row.
         if (xAxisCombo.length > 0) {
           xAxisCombo = (xAxisCombo[xAxisCombo.length-1] === (j - 1)) ? xAxisCombo.concat(j): [];
+          // Account for repeating X axis items.
+          result = Math.max(result, xAxisCombo.length);
         } else {
           xAxisCombo = xAxisCombo.concat(j);
         }
@@ -66,11 +67,7 @@ const maximalRectangle = (matrix) => {
         yAxisCombo = [];
       }
     });
-
-    // Account for repeating X axis items.
-    result = Math.max(result, xAxisCombo.length);
   });
-
   // Log the combos object if theres confusion with how we memoize them. It'll clarify the logic.
   // console.log({combos});
   return result;
