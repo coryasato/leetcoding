@@ -12,7 +12,8 @@
 // Input: heights = [2,4]
 // Output: 4
 
-const largestRectArea = (heights) => {
+// Initial brute force solution.
+const __largestRectArea = (heights) => {
   let result = 0;
 
   for (let i = 1; i < heights.length; i++) {
@@ -37,6 +38,33 @@ const largestRectArea = (heights) => {
     }
 
     result = Math.max(result, top);
+  }
+
+  return result;
+};
+
+// Looked this one up to study an O(n) solution utilizing a Monotonic stack.
+const largestRectArea = (heights) => {
+  let left = new Array(heights.length).fill(-1);
+  let right = new Array(heights.length).fill(heights.length);
+
+  let indexStack = [];
+  let result = 0;
+
+  for (let i = 0; i < heights.length; i++) {
+    while (indexStack.length > 0 && heights[indexStack[indexStack.length-1]] >= heights[i]) {
+      right[indexStack.pop()] = i;
+    }
+
+    if (indexStack.length > 0) {
+      left[i] = indexStack[indexStack.length-1];
+    }
+
+    indexStack.push(i);
+  }
+
+  for (let i = 0; i < heights.length; i++) {
+    result = Math.max(result, heights[i] * (right[i] - left[i] - 1));
   }
 
   return result;
