@@ -12,9 +12,9 @@
 // Input: head = [2,1], x = 2
 // Output: [1,2]
 
-import LinkedList, {ListNode, linkedListToArray, stringifyList} from "../../helpers/linked-list";
+import LinkedList, {ListNode, linkedListToArray, stringifyList} from "../../helpers/linked-list";{}
 
-const partitionList = (arr, x) => {
+const partition = (arr, x) => {
   const head = LinkedList(arr);
   const clone = ListNode(null, head);
 
@@ -51,4 +51,4 @@ const partitionList = (arr, x) => {
   return linkedListToArray(clone.next);
 };
 
-export default partitionList;
+export default partition;
