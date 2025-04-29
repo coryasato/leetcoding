@@ -12,7 +12,7 @@
 // Input: head = [2,1], x = 2
 // Output: [1,2]
 
-import LinkedList, {ListNode, linkedListToArray, stringifyList} from "../../helpers/linked-list";{}
+import LinkedList, {ListNode, linkedListToArray, stringifyList} from "../../helpers/linked-list";
 
 const partition = (arr, x) => {
   const head = LinkedList(arr);
@@ -21,7 +21,7 @@ const partition = (arr, x) => {
   let node = clone.next;
   let root = clone;
 
-  let cacheHead = ListNode(null, null);
+  const cacheHead = ListNode(null, null);
   let cache = cacheHead;
 
   while (node !== null) {
@@ -38,6 +38,7 @@ const partition = (arr, x) => {
       // When the current node is less than the target, move the root forward.
       root = root.next;
     }
+
     // When we hit the end of the list, append the cached list.
     if (node.next === null) {
       node.next = cacheHead.next;
