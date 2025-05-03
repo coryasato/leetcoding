@@ -28,26 +28,59 @@
 // Input: n = 1
 // Output: [0,1]
 
-const _getNextBin = (binaryStr) => {
-  if ([].every.call(binaryStr,(n => n === '1'))) {
-    return '10';
-  } else {
-    return '11';
+// Returns 4 binary strings per decimalCount.
+const _getBinsForDecimals = decimalCount => {
+  let bin = [1].concat(new Array(decimalCount - 1).fill(0));
+  let arr = [bin.join('')];
+
+  while (arr.length < 4) {
+    const idx = bin.findLastIndex(n => n === 0);
+
+    if (idx > 0) {
+      bin[idx] = 1;
+    } else {
+      bin[bin.length-1] = 0;
+    }
+
+    arr.push(bin.join(''));
   }
+
+  return arr;
 };
 
+// Use 2 arrays. array1 is for the left and to push to, array2 is for the right and unshift into.
+// We operatate in pairs, so index 0,1 = array1[00, 10], array2 = [11, 01]
+// Then for index 2,3 = array1 = [00, 10, 100, 101], array2 = [111, 110, 11, 01]
+// The algo for each index is, even indexes are: 1 followed by the amount of digits per array group:
+// Digits per array group are in pairs, 0,1 (2 digits) | 2,3 (3 digits) | 4,5 (4 digits) and onward.
+// Binary str to int: parseInt(string, 2);
+// Int to bin: intVar.toString(2);
 const grayCode = (n) => {
-  let res = [0,1];
-  let bin = ['00','01'];
+  if (n === 1) return [0,1];
 
-  for (let i = 1; i < n; i++) {
-    const a = _getNextBin(bin[bin.length-1]);
-    const b = _getNextBin(a);
-    bin = bin.concat(a, b);
-    res = res.concat(parseInt(a, 2), parseInt(b, 2));
+  let left = ['00','10'];
+  let right = ['11','01'];
+
+  let decimalCount = 3;
+  let loop = n - 2;
+
+  while (loop > 0) {
+    const bins = _getBinsForDecimals(decimalCount);
+
+    if ((loop - 2) >= 0) {
+      left.push(...bins.slice(0, 2));
+      right.unshift(...bins.slice(2));
+    } else {
+      left.push(...[bins[0], bins[2]]);
+    }
+
+    loop -= 2;
+    decimalCount++;
   }
 
-  return res;
+  // Debug;
+  // console.log({left, right});
+  return left.concat(right).map(bin => parseInt(bin, 2));
 };
 
 export default grayCode;
