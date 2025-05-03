@@ -48,6 +48,7 @@ const _getBinsForDecimals = decimalCount => {
   return arr;
 };
 
+// Algo:
 // Use 2 arrays. array1 is for the left and to push to, array2 is for the right and unshift into.
 // We operatate in pairs, so index 0,1 = array1[00, 10], array2 = [11, 01]
 // Then for index 2,3 = array1 = [00, 10, 100, 101], array2 = [111, 110, 11, 01]
@@ -55,6 +56,18 @@ const _getBinsForDecimals = decimalCount => {
 // Digits per array group are in pairs, 0,1 (2 digits) | 2,3 (3 digits) | 4,5 (4 digits) and onward.
 // Binary str to int: parseInt(string, 2);
 // Int to bin: intVar.toString(2);
+
+// Thoughts:
+// To use less time | space we can:
+// 1) Don't store the binary strings, just use them to populate and already created result array.
+// 2) Prefill the result array with empty slots. new Array(n * 2).fill(''); (The results will always be double the n arg)
+//    Then for the left we add to the first two empty slots, last two empty slots for the right.
+//    We fill the array with integers parsed from the binary strings.
+// 3) Don't slice or spread anything, these are creating more arrays. Since we know we only have 4 items and we know where
+//    they go, just place them by index reference.
+// 4) In _getBinsForDecimals, instead of findLastIndex, use a cursor that starts on the last index, flip the index value to 1,
+//    and decrement the cursor. Once the cursor hits index 1, we know we need to flip the last index to 0 because everything is then 1's.
+//    findLastIndex does another loop and we're already in a nested loop.
 const grayCode = (n) => {
   if (n === 1) return [0,1];
 
