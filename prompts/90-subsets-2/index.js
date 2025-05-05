@@ -12,8 +12,9 @@
 // Input: nums = [0]
 // Output: [[],[0]]
 
-const subsetsWithDups = (nums) => {
+const subsetsWithDupsR = (nums) => {
   const map = {};
+
   const recurse = (idx, arr) => {
     if (idx === nums.length) {
       const key = arr.join('-');
@@ -35,7 +36,26 @@ const subsetsWithDups = (nums) => {
   return recurse(0, []);
 };
 
-// console.log(subsetsWithDups([1,2,2]));
-// console.log(subsetsWithDups([0]));
+const subsetsWithDups = (nums) => {
+  let map = {};
+  let result = [[]];
+  let cursor = 0;
+
+  while(cursor < nums.length) {
+    let curr = [];
+    for (let i = cursor; i < nums.length; i++) {
+      curr.push(nums[i]);
+
+      const key = curr.join('-');
+      if (!(key in map)) {
+        map[key] = true;
+        result.push([...curr]);
+      }
+    }
+    cursor++;
+  }
+
+  return result;
+};
 
 export default subsetsWithDups;
