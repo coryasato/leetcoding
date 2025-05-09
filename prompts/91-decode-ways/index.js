@@ -38,7 +38,9 @@
 // "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06"). In this case, the string is not a valid encoding, so return 0.
 
 const numDecodings = (s) => {
-  let count = 0;
+  let combos = [];  // NOTE: This is not needed, but is useful for debugging. The result should be all of these items multiplied in order.
+  let running = 0;  // The running combinations in a substring
+  let multi = 0;    // The multiples per running combination
 
   for (let i = 0; i < s.length; i++) {
     const curr = s[i];
@@ -48,28 +50,28 @@ const numDecodings = (s) => {
       const prev = s[i-1];
 
       if (i === 0 || (prev !== '1' && prev !== '2')) {
-        break;                                         // End the loop, the string is illegal
-      } else {                                         // Handles '10' and '20'
-        if (i % 2 === 0) {                             // If the index is even then we need to remove a counter
-          count--;
-        }
-        continue;
+        break;     // End the loop, the string is illegal
+      } else {
+        continue;  // If '10' or '20', move to the next index
       }
     }
 
     const num = parseInt((curr + next));
     if (num > 10 && num <= 26 && num !== 20) {
-      // console.log({count, i, num, math: Math.abs(i-2)});
-      count += Math.abs(i - 2);
+      running = running === 0 ? 2 : (running + 1);
+    } else if (running > 0) {
+      // Subtract from the previous running count when we hit a 10 or 20.
+      if (num === 10 || num === 20) {
+        running--;
+      }
+      combos.push(running);
+      multi = multi === 0 ? running : (multi * running);
+      running = 0;
     }
   }
 
-  return count;
+  // console.log({running, combos, multi});
+  return multi;
 };
-
-// console.log(numDecodings('12'));
-// console.log(numDecodings('06'));
-// console.log(numDecodings('2221012'));
-console.log(numDecodings('2261212'));
 
 export default numDecodings;
