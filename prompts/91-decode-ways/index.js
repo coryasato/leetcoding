@@ -38,8 +38,7 @@
 // "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06"). In this case, the string is not a valid encoding, so return 0.
 
 const numDecodings = (s) => {
-  let arr = [];
-  let offset = 0;  // If we see a 10 or 20, we need to reduce the inputs by 2 chars.
+  let count = 0;
 
   for (let i = 0; i < s.length; i++) {
     const curr = s[i];
@@ -49,30 +48,28 @@ const numDecodings = (s) => {
       const prev = s[i-1];
 
       if (i === 0 || (prev !== '1' && prev !== '2')) {
-        arr = [];
-        break;  // End the loop, the string is illegal
-      } else {  // Handles '10' and '20'
-        arr.push((prev + curr));
-        offset += 2;
+        break;                                         // End the loop, the string is illegal
+      } else {                                         // Handles '10' and '20'
+        if (i % 2 === 0) {                             // If the index is even then we need to remove a counter
+          count--;
+        }
         continue;
       }
     }
 
     const num = parseInt((curr + next));
     if (num > 10 && num <= 26 && num !== 20) {
-      arr = arr.concat([curr, next, (curr + next)]);
-    } else {
-      arr.push(curr);
+      // console.log({count, i, num, math: Math.abs(i-2)});
+      count += Math.abs(i - 2);
     }
   }
 
-  // console.log({ arr, len: Math.floor((arr.length - offset)/2), path: Math.ceil((arr.length-offset)/(s.length/2)) });
-
-  return Math.floor((arr.length - offset) / 2);
+  return count;
 };
 
 // console.log(numDecodings('12'));
 // console.log(numDecodings('06'));
-// console.log(numDecodings('226'));
+// console.log(numDecodings('2221012'));
+console.log(numDecodings('2261212'));
 
 export default numDecodings;
