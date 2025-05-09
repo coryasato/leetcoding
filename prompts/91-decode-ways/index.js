@@ -50,6 +50,7 @@ const numDecodings = (s) => {
       const prev = s[i-1];
 
       if (i === 0 || (prev !== '1' && prev !== '2')) {
+        multi = -1;
         break;     // End the loop, the string is illegal
       } else {
         continue;  // If '10' or '20', move to the next index
@@ -61,8 +62,9 @@ const numDecodings = (s) => {
       running = running === 0 ? 2 : (running + 1);
     } else if (running > 0) {
       // Subtract from the previous running count when we hit a 10 or 20.
+      //
       if (num === 10 || num === 20) {
-        running--;
+        running = Math.max(running - 1, 0);
       }
       combos.push(running);
       multi = multi === 0 ? running : (multi * running);
@@ -70,8 +72,11 @@ const numDecodings = (s) => {
     }
   }
 
+  // Left the line below for debugging and to see whats going on with the combos.
   // console.log({running, combos, multi});
-  return multi;
+
+  // If -1, then the string was invalid, otherwise there will always be atleast 1 result.
+  return multi === -1 ? 0 : Math.max(multi, 1);
 };
 
 export default numDecodings;
