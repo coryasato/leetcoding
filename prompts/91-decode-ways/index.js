@@ -58,11 +58,11 @@ const numDecodings = (s) => {
     }
 
     const num = parseInt((curr + next));
+
     if (num > 10 && num <= 26 && num !== 20) {
       running = running === 0 ? 2 : (running + 1);
     } else if (running > 0) {
       // Subtract from the previous running count when we hit a 10 or 20.
-      //
       if (num === 10 || num === 20) {
         running = Math.max(running - 1, 0);
       }
