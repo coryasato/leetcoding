@@ -20,42 +20,26 @@
 import BinaryTree, { TreeNode, buildArrFromTree } from "../../helpers/binary-tree";
 
 const flatten = (arr) => {
-  if (arr.length <=1 ) return arr;
+  if (arr.length === 0) return arr;
 
   const root = BinaryTree(arr);
-  const leftRoot = TreeNode(root.left.val);
-  const rightRoot = TreeNode(root.right.val);
+  const head = TreeNode(0);
+  let list = head;
 
-  const walk = (node, tree) => {
-    if (node === null) return node;
+  const walk = (node) => {
+    if (node === null) return;
 
-    if (node.left !== null) {
-      tree.right = TreeNode(node.left.val);;
-      tree = tree.right;
-      walk(node.left, tree);
-    }
-
-    if (node.right !== null) {
-      tree.right = TreeNode(node.right.val);
-      tree = tree.right;
-      walk(node.right, tree);
-    }
+    list.right = TreeNode(node.val);
+    list = list.right;
+    walk(node.left);
+    walk(node.right);
   };
 
-  walk(root.left, leftRoot);
-  walk(root.right, rightRoot);
-
-  let node = leftRoot;
-  while (node !== null) {
-    if (node.right === null) {
-      node.right = rightRoot;
-      break;
-    }
-    node = node.right;
-  }
+  walk(root.left);
+  walk(root.right);
 
   root.left = null;
-  root.right = leftRoot;
+  root.right = head.right;
   return buildArrFromTree(root);
 };
 
