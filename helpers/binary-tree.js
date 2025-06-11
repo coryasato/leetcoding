@@ -67,11 +67,49 @@ export const buildArrFromTree = (root) => {
 
   return result;
 };
+export const PerfectTreeNode = (val, left=null, right=null, next=null) => ({
+  val,
+  left,
+  right,
+  next,
+});
+
+export const PerfectBinaryTree = (arr) => {
+  if (!arr || arr.length === 0) {
+    return null;
+  }
+
+  const root = PerfectTreeNode(arr[0]);
+  let queue = [root];
+  let i = 1;
+
+  while (i < arr.length) {
+    const current = queue.shift();
+
+    if (arr[i] !== null && i < arr.length) {
+      current.left = PerfectTreeNode(arr[i]);
+      queue.push(current.left);
+      i++;
+    } else {
+      i++;
+    }
+
+    if (arr[i] !== null && i < arr.length) {
+      current.right = PerfectTreeNode(arr[i]);
+      queue.push(current.right);
+      i++;
+    } else {
+      i++;
+    }
+  }
+
+  return root;
+};
 
 export const TreeNode = (val, left=null, right=null) => ({
   val,
   left,
-  right
+  right,
 });
 
 const BinaryTree = (arr) => {
