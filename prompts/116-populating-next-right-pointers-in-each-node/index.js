@@ -30,7 +30,7 @@ const connect = (arr) => {
   let res = [];
   let queue = [[root]];
 
-  while(queue.length > 0) {
+  while (queue.length > 0) {
     const level = queue.shift();
 
     level.forEach((node, i) => {
