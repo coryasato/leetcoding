@@ -24,53 +24,19 @@
 // Output: 0
 // Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
 
-// const maxProfit = (prices) => {
-//   let res = 0;
-//   let heldStock = prices[0];
-
-//   for (let i = 1; i < prices.length; i++) {
-//     const curr = prices[i];
-
-//     if (heldStock === null) {
-//       heldStock = curr;
-//     } else if (heldStock > curr) {
-//       heldStock = curr;
-//     } else {
-//       res += curr - heldStock;
-//       heldStock = null;
-//     }
-//   }
-
-//   return res;
-// };
-
 const maxProfit = (prices) => {
   let res = 0;
-  // let map = {};
 
-  const combo = (curr, rest=[]) => {
-    if (rest.length === 0) {
-      return;
-    };
+  for (let i = 0; i < prices.length; i++) {
+    const curr = prices[i];
+    const next = prices[i+1];
 
-    if (rest[0] > curr) {
-      // const sum = rest[0] - curr;
-      // map[curr] = map.hasOwnProperty(curr) ? map[curr].concat(sum) : [sum];
-      res += rest[0] - curr;
+    if (next > curr) {
+      res += next - curr;
     }
+  }
 
-    // combo(curr, rest.slice(1));
-    combo(rest[0], rest.slice(1));
-  };
-
-  combo(prices[0], prices.slice(1));
-
-  // console.log(map);
   return res;
 };
-// console.log(maxProfit([1,2,3,4,5]));
-// console.log(maxProfit([7,1,5,3,6,4]));
-// console.log(maxProfit([1,2,3,4,5]));
-// console.log(maxProfit([7,6,4,3,1]));
 
 export default maxProfit;
