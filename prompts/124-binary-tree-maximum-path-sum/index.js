@@ -31,18 +31,16 @@ const maxPathSum = (arr) => {
     const leftSum = walk(node.left);
     const rightSum = walk(node.right);
 
-    // console.log({node: node.val, leftSum, rightSum});
+    // Allocate sums for subtrees. maxSum here will be each node's left to right full path.
     maxSum = Math.max(maxSum, (leftSum + node.val + rightSum));
 
+    // The below Math.max will select which child's paths sum to the greatest.
+    // The return here will essentially tell parent nodes the sum of paths downward, per left and right children.
     return node.val + Math.max(leftSum, rightSum);
   };
 
   walk(root);
   return maxSum;
 };
-
-// console.log(maxPathSum([1,2,3]));
-// console.log(maxPathSum([-10,9,20,null,null,15,7]));
-// console.log(maxPathSum([-10,9,20,4,null,15,7]));
 
 export default maxPathSum;

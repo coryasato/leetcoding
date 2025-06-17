@@ -4,6 +4,7 @@ import maxPathSum from './index';
 const cases = [
   [[1,2,3], 6],
   [[-10,9,20,null,null,15,7], 42],
+  [[10,9,20,4,null,15,7], 58],
 ];
 
 describe("binary-tree-maximum-path-sum", () => {
