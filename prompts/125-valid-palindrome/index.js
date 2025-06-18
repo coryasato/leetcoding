@@ -63,12 +63,6 @@ const isPalindrome = (s) => {
       res = false;
       break;
     }
-    // Edge case if we have alot of non alpha chars in either side of the string and the
-    // pointers overlap. The pointers can never overlap.
-    if (right < left || left > right) {
-      res = false;
-      break;
-    }
 
     left++;
     right--;

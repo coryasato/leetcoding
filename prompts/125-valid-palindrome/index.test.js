@@ -5,6 +5,8 @@ const cases = [
   ['A man, a plan, a canal: Panama', true],
   ['race a car', false],
   [' ', true],
+  ['a  b;?   d b:!   a', true],
+  ['a  b;;c   d b:"   a', false],
 ];
 
 describe("valid-palindrome", () => {
