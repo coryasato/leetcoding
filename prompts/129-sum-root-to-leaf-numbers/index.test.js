@@ -1,4 +1,4 @@
-  import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import sumNumbers from './index';
 
 const cases = [
