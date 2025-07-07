@@ -38,9 +38,11 @@ const wordBreak = (s, wordDict) => {
       return;
     }
 
-    entry.push(words[0]);
-    combo(words.slice(1), entry);
-    entry.pop();
+    words.forEach((word, i) => {
+      entry.push(word);
+      combo(words.slice(i+1), entry);
+      entry.pop();
+    });
   };
 
   combo(wordDict.slice());
