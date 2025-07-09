@@ -17,6 +17,41 @@
 // Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
 // Output: []
 
+// Second iteration, following the notes below.
+// This strategy is much better and easier to reason about.
+const __wordBreak = (s, wordDict) => {
+  const entries = new Set();
+  const queue = [];
+
+  // Seed the queue to get started.
+  wordDict.forEach(word => {
+    if (s.startsWith(word)) {
+      queue.push({ str: s.slice(word.length), words: [word] });
+    }
+  });
+
+  // For every entry in queue, we add an entry for each matching "branch" where a word can be a potential
+  // starting word for the string. If we exhaust all chars in the string, then we have a result.
+  while (queue.length > 0) {
+    const entry = queue.shift();
+
+    wordDict.forEach(word => {
+      if (entry.str.startsWith(word)) {
+        if (entry.str.length === word.length) {
+          entries.add(entry.words.concat(word).join(' '));
+        } else {
+          queue.push({ str: entry.str.slice(word.length), words: entry.words.concat(word) });
+        }
+      }
+    });
+  }
+
+  return [...entries];
+};
+// console.log(__wordBreak("catsanddog", ["cat","cats","and","sand","dog"]));
+// console.log(__wordBreak("pineapplepenapple", ["apple","pen","applepen","pine","pineapple"]));
+// console.log(__wordBreak("catsandog", ["cat","cats","and","sand","dog"]));
+
 // NOTES:
 // This is a lot of work going on via gathering the permutations, looping over them with the hacky usedWord re-queue, etc.
 // Instead, what if we:
