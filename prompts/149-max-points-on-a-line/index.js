@@ -11,7 +11,7 @@
 // Output: 4
 
 const _isMatch = (p1, p2) => {
-  const isOneOrNegOne = (n) => n === 1 || n === -1;
+  const isOneOrNegOne = (n) => n === 0 || n === 1 || n === -1;
   return isOneOrNegOne(p1[0] - p2[0]) && isOneOrNegOne(p1[1] - p2[1]);
 };
 
