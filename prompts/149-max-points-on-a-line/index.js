@@ -16,8 +16,8 @@ const _isMatch = (p1, p2) => {
 };
 
 const maxPoints = (points) => {
-  const indexMap = {};
-  const seenMap = {};
+  const indexMap = {};  // { <indexOfPlot1>: [ indexOfPlot2 ] } Every plot that matches the current plot1 index.
+  const seenMap = {};   // { <indexOfPlot2>: [ indexOfPlot1 (indexMapIndex) ] } Everywhere a plot was matched, what indexMap properties does the index exist in.
 
   for (let i = 0; i < points.length; i++) {
     const plot = points[i];
@@ -41,10 +41,23 @@ const maxPoints = (points) => {
       }
     }
   }
+  // Utilizing Sets here to leverage the union method and uniqueness of values.
+  // What we are essentially doing is the making sure all matched "plot2" or "j" indexes in seenMap are applied to its indexMap equivalent.
+  // Why? Because we know if seenMap has multiple indexes there is a connection between two indexMap properties. We want to combine the
+  // plots together as a union.
+  //
+  // So if: indexMap['1'] is [1,4,5] and indexMap['2'] is [2,5], then seenMap['5'] will be [1,2] (1,2 are the indexes of indexMap).
+  // We know that 5 connects the two and that index 2 is the missing connection plot. Union the two Sets to do so.
+  // The result will be [1,4,5,2] for arg: [[1,1],[3,2],[1,4],[5,3],[4,1],[2,3]]
+  const greatestList = Object.values(seenMap).reduce((acc, seenList) => {
+    const listOfConnectedIdxs = seenList.reduce((acc, indexMapIdx) => {
+      return acc.union(new Set(indexMap[indexMapIdx]));
+    }, new Set());
 
-  return Object.values(indexMap).reduce((acc, idxs) => {
-    return acc.length > idxs.length ? acc : idxs;
-  }, []).length;
+    return acc.size > listOfConnectedIdxs.size ? acc : listOfConnectedIdxs;
+  }, new Set());
+
+  return greatestList.size;
 };
 
 export default maxPoints;

@@ -5,6 +5,8 @@ const cases = [
   [[[1,1],[2,2],[3,3]], 3],
   [[[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]], 4],
   [[[1,1],[2,1],[3,1]], 3],
+  [[[1,1],[3,2],[1,4],[5,3],[4,1],[2,3]], 4],  // Shuffled [1,4] to index 2 so that it doesn't match directly in order.
+
 ];
 
 describe("max-points-on-a-line", () => {
