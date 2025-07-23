@@ -34,6 +34,39 @@
 // = 17 + 5
 // = 22
 
+// NOTE: Adding this one just for fun. The main export is the first solution which should be faster since we do
+// math inline with intent to avoid "eval". Here we build up a string to make it mirror the prompt's Explanation
+// clauses in each example. Then we have to eval the string of course to turn that into executable math. The logic is
+// exactly the same in both, this is one is just to see the output as a string and to run eval, as the name of the
+// function suggests. :)
+const _evalRPN = (tokens) => {
+  const REGEX = /[+-/*](?!\d)/;
+  const stack = [];
+  let equation = '';
+  let numsChain = 0;
+
+  for (const token of tokens) {
+    if (token.match(REGEX)) {
+      if (numsChain > 1) {
+        const right = stack.pop();
+        const left = stack.pop();
+        equation += `(${left} ${token} ${right})`;
+      } else {
+        equation = numsChain === 1
+          ? `(${equation} ${token} ${stack.pop()})`
+          : `(${stack.pop()} ${token} ${equation})`;
+      }
+      numsChain = 0;
+    } else {
+      numsChain++;
+      stack.push(token);
+    }
+  }
+                                      // Tokens: ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
+  console.log({equation});            // (((10 * (6 / ((9 + 3) * -11))) + 17) + 5)
+  return Math.round(eval(equation));  // 22
+};
+
 const _mathHelper = (operator) => {
   const helpers = {
     '+': (a, b) => a + b,
@@ -45,14 +78,13 @@ const _mathHelper = (operator) => {
 };
 
 const evalRPN = (tokens) => {
-  const REGEX = /[+-/*]/;
+  const REGEX = /[+-/*](?!\d)/;
   const stack = [];
   let res = 0;
   let numsChain = 0;
 
   for (const token of tokens) {
-    // Check for length to ignore negative numbers: Example: '-120' will match the REGEX.
-    if (token.length === 1 && token.match(REGEX)) {
+    if (token.match(REGEX)) {
       // If we stacked more than 1 numbers in a row, then we have a starting operation with two numbers in the stack.
       // Else if we encountered one number for one operand token, then the res will become the left and the next item on the
       // stack will be the right side of the equation.
@@ -61,7 +93,7 @@ const evalRPN = (tokens) => {
       if (numsChain > 1) {
         const right = stack.pop();
         const left = stack.pop();
-        res = _mathHelper(token)(left, right);
+        res += _mathHelper(token)(left, right);
       } else if (numsChain === 1) {
         res = _mathHelper(token)(res, stack.pop());
       } else {
