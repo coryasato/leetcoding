@@ -14,8 +14,33 @@
 // Output: 0
 // Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 
+// NOTE: This is a second strategy that implements the note below on line 44.
+// This is an O(N) solution that inlines the math per subarray loop.
+// MAX_VALUE is used somewhat like a flag to tell us when to restart a subarray (left: starting index, right: starting index+1).
+export const _maxProduct = (nums) => {
+  let left = 0;
+  let right = 1;
+  let product = 0;
+  let subProduct = Number.MAX_VALUE;
+
+  while (left < nums.length-1) {
+    subProduct = subProduct === Number.MAX_VALUE ? (nums[left] * nums[right]) : (subProduct * nums[right]);
+    product = Math.max(product, subProduct);
+
+    if (right === nums.length-1) {
+      left++;
+      right = left + 1;
+      subProduct = Number.MAX_VALUE;
+      continue;
+    } else {
+      right++;
+    }
+  }
+
+  return product;
+};
+
 // NOTE: Recursive solution here is not ideal, but was good for practice.
-//
 // If I was concerned about speed, I think a while loop with 2 pointers, doing math inline would be best.
 // How To: Set up left and right pointers, when the right pointer moves forward, math the product and store
 //         its result in a variable. Move the right pointer forward and repeat until the right pointer is
