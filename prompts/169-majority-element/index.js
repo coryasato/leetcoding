@@ -14,9 +14,32 @@
 
 // Follow-up: Could you solve the problem in linear time and in O(1) space?
 
+// NOTE: Update to the note around O(1). I missed the prompt specifying the majority element will be repeated
+// more than half the length of nums. This makes it trivial since we can basically assume the higher frequency of the majority
+// element will overtake other numbers in one iteration utilizing a counter.
+const _majorityElement = (nums) => {
+  let el = nums[0];
+  let count = 1;
+
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] === el) {
+      count++;
+    } else {
+      count --;
+    }
+    // Reset the counter.
+    if (count === 0) {
+      el = nums[i];
+      count = 1;
+    }
+  }
+
+  return el;
+};
+
 // NOTE: Uses O(N) space due to the map object that growns with the input.
-// O(1) space attempt: Tried usind bit-shifts that mark indexes and numbers utilizing modelo op. But it if the integers aren't within a range less than
-// the length of the argument, the index collions with not math properly. Left this note in case another solution is though up for O(1) space.
+// O(1) space attempt: Tried usind bit-shifts that mark indexes and numbers utilizing the modelo op. But it if the integers aren't within a range less than
+// the length of the argument, the index collions with not math properly. Left this note in case another solution is thought up for O(1) space.
 const majorityElement = (nums) => {
   const map = {};
   let maxCount = 0;
