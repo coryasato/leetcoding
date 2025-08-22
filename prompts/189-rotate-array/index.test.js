@@ -12,7 +12,7 @@ const cases = [
 ];
 
 describe("rotate-array", () => {
-  test.each(cases)("nums=%o, k=%i) should equal %=o", (a, b, expected) => {
+  test.each(cases)("nums=%o, k=%i) should equal %o", (a, b, expected) => {
     expect(rotate(a, b)).toEqual(expected);
   });
 });

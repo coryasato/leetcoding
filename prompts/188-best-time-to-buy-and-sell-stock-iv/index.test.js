@@ -7,7 +7,7 @@ const cases = [
 ];
 
 describe("best-time-to-buy-and-sell-stock-iv", () => {
-  test.each(cases)("k=%i, prices=%o) should be %=i", (a, b, expected) => {
+  test.each(cases)("k=%i, prices=%o) should be %i", (a, b, expected) => {
     expect(maxProfit(a, b)).toBe(expected);
   });
 });
