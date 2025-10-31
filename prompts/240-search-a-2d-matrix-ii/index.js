@@ -14,12 +14,45 @@
 // Output: false
 
 // Initial solution, less than 30 seconds to write, inefficient.
-const searchMatrix = (matrix, target) => {
+const _searchMatrix = (matrix, target) => {
   return matrix.reduce((acc, row) => {
     if (acc) return acc;
     const index = row.findIndex(cell => cell === target);
     return index > -1;
   }, false);
+};
+
+// Second solution:
+// This will skip over rows based on their last item and limit the range of x to pincer the
+// probable target to the lower left of the matrix. We could further speed up this op by doing a binary search on
+// each row, but we lose the "j" index placement if we need it to further limit the range of x. We could memoize the j indexes
+// with a bit of math if we really wanted both of best worlds. In hindsight, a binary search per row would be likely faster given
+// a large matrix.
+const searchMatrix = (matrix, target) => {
+  let res = false;
+  let xRange = matrix[0].length;
+
+  for (let i = 0; i < matrix.length; i++) {
+    if (res === true) break;
+    // Skip the current row if the target is greater than the last element.
+    if (target > matrix[i][matrix[i].length-1]) continue;
+
+    for (let j = 0; j < xRange; j++) {
+      const cell = matrix[i][j];
+
+      if (cell === target) {
+        res = true;
+        break;
+      }
+      // Limit the x range of how far we loop into a row.
+      if (cell > target) {
+        xRange = Math.min(xRange, j);
+        continue;
+      }
+    }
+  }
+
+  return res;
 };
 
 export default searchMatrix;
