@@ -10,7 +10,7 @@
 
 import isStrobogrammatic from "../246-strobogrammatic-number";
 
-const INCLUDE_SET = new Set(['1', '6', '8', '9']);
+const INCLUDE_SET = new Set(['0', '1', '6', '8', '9']);
 
 const isStrobogrammatic2 = (n) => {
   let start = Math.pow(10, n) / 10;

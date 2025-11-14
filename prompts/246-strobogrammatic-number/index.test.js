@@ -4,6 +4,7 @@ import isStrobogrammatic from './index';
 const cases = [
   ['69', true],
   ['88', true],
+  ['101', true],
   ['962', false],
   ['619', true],
   ['9886', true],

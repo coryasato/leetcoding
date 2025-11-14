@@ -17,27 +17,36 @@
 // Output: false
 
 const NUM_MAP = {
+  '0': '0',
   '1': '1',
   '6': '9',
   '8': '8',
   '9': '6',
 };
 
+const ODD_SET = new Set(['0', '1', '8']);
+
 const isStrobogrammatic = (str) => {
   let i = 0;
   let j = str.length-1;
   let res = true;
 
+  // No leading zeros.
+  if (str.length > 1 && str[0] === '0') return false;
+
   while (i <= j) {
     const key = str[i];
 
-    // When the length is odd, the center char must be either "1" or "8".
-    if (i === j && key !== '1' && key !== '8') {
+    // When the length is odd, the center char must be either "0", "1" or "8".
+    if (i === j && ODD_SET.has(key) === false) {
       res = false;
       break;
     }
 
-    if (!(NUM_MAP.hasOwnProperty(key)) || (NUM_MAP[key] !== str[j])) {
+    if (
+      (!NUM_MAP.hasOwnProperty(key)) ||
+      (NUM_MAP[key] !== str[j])
+    ) {
       res = false;
       break;
     }
