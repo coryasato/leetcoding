@@ -50,12 +50,12 @@ const S_MAP = {
 // The downside here to the recursive fn is that it builds from zero or one at a time only.
 // Meaning the results will only be evens or odds for each call.
 // Thus, it forces us to call the fn for each low -> high length of results (two digit for "50", three digit for "100").
-const isStrobogrammatic3 = (low, high) => {
-  const gen = (n, limit) => {
+const _isStrobogrammatic3R = (low, high) => {
+  const gen = (n) => {
     if (n === 0) return [''];
     if (n === 1) return ['0', '1', '8'];
 
-    const innerN = gen(n-2, limit);
+    const innerN = gen(n-2);
     const res = [];
 
     innerN.forEach(num => {
@@ -88,6 +88,52 @@ const isStrobogrammatic3 = (low, high) => {
   }
 
   return res.length;
+};
+
+// Second Recursive Solution:
+// This one will memoize each stack of n so that we can do a look behind on where to start
+// building the current group of strings from. This allows us to count the valid parsed strings to determine
+// if they are in range of our low, high args as they come in.
+const isStrobogrammatic3 = (low, high) => {
+  const initGroups = [
+    [''],
+    ['0', '1', '8'],
+  ];
+  let res = low.length <= 1 ? 3 : 0;  // When "low" is one or zero, init the counter with the first 3 single legal digits.
+
+  const gen = (n, groups) => {
+    if (n <= 1) return groups;
+
+    // Recursive call.
+    groups = gen(n-1, groups);
+
+    const currGroup = [];
+    const prevGroup = groups[n-2];  // prevGroup is always 2 indexes back. Its what we'll build this currGroup off of.
+
+    prevGroup.forEach(num => {
+      for (const [key, val] of Object.entries(S_MAP)) {
+        if (key === '0') continue;
+
+        const strobNum = (key + num + val);
+        currGroup.push(strobNum);
+
+        // If we're in range, count all valid numbers.
+        if (
+          n >= low.length && n <= high.length &&
+          parseInt(strobNum) >= parseInt(low) &&
+          parseInt(strobNum) <= parseInt(high)
+        ) {
+          res++;
+        }
+      }
+    });
+
+    groups.push(currGroup);
+    return groups;
+  };
+
+  gen(high.length, initGroups);
+  return res;
 };
 
 export default isStrobogrammatic3;
