@@ -30,6 +30,19 @@ const generatorCases = [
   ]
 ];
 
+const cases = [
+  [
+    [[],[1,2],[],[3],[4]],
+    ['next', 'next', 'next', 'hasNext', 'hasNext', 'next', 'hasNext'],
+    [1,2,3,true,true,4,false],
+  ],
+  [
+    [[],[],[],[],[]],
+    ['hasNext','next', 'hasNext'],
+    [false, null, false],
+  ]
+];
+
 describe("flatten-2d-vector", () => {
   describe("Vector2DWithGenerator", () => {
     test.each(generatorCases)("arr=%o, instructions=%o) should equal %o", (a, b, expected) => {
@@ -37,6 +50,14 @@ describe("flatten-2d-vector", () => {
       const iterator = vector[Symbol.iterator]();
 
       expect(b.map(instruction => instruction(vector, iterator))).toEqual(expected);
+    });
+  });
+
+  describe("Vector2D", () => {
+    test.each(cases)("arr=%o, instructions=%o) should equal %o", (a, b, expected) => {
+      const vector = new Vector2D(a);
+
+      expect(b.map(instruction => vector[instruction]())).toEqual(expected);
     });
   });
 });
