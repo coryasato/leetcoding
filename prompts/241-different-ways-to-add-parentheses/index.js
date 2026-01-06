@@ -22,6 +22,11 @@
 // (((2*3)-4)*5) = 10
 
 const OPERATERS = new Set(['+', '-', '*']);
+const OPERATIONS = {
+  '+': (l, r) => l + r,
+  '-': (l, r) => l - r,
+  '*': (l, r) => l * r,
+};
 
 const _isValid = (str) => {
   const parens = [];
@@ -99,7 +104,7 @@ const _addOpeningParens = (exp, parensCount, startingCursor=0) => {
 
 // NOTE: This is very much not optimized and messy and Im sure its wrong.
 // Try recursion with tail call.
-const diffWaysToCompute = (expression) => {
+export const _diffWaysToCompute = (expression) => {
   const NUM_OPS = Math.floor(expression.length / 2) - 1;
   let entries = [];
   let exp = expression;
@@ -121,10 +126,46 @@ const diffWaysToCompute = (expression) => {
     expHead = exp.slice(0, 2);
     exp = exp.slice(2);
   }
-  // console.log({e: [...entries]});
+
   return entries.map(entry => _addClosingParens(entry))
     .filter(entry => _isValid(entry))
     .map(entry => eval(entry));
+};
+
+const diffWaysToCompute = (expression) => {
+  const memo = new Map();
+
+  const combine = (str) => {
+    if (memo.has(str)) return memo.get(str);
+
+    const res = [];
+
+    if (Number.isInteger(Number(str))) {
+      res.push(Number(str));
+      memo.set(str, res);
+      return res;
+    }
+
+    for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+
+      if (OPERATERS.has(char)) {
+        const left = combine(str.slice(0, i));
+        const right = combine(str.slice(i + 1));
+
+        for (const l of left) {
+          for (const r of right) {
+            res.push(OPERATIONS[char](l, r));
+          }
+        }
+      }
+    }
+
+    memo.set(str, res);
+    return res;
+  };
+
+  return combine(expression);
 };
 
 export default diffWaysToCompute;
