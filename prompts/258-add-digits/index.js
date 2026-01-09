@@ -14,11 +14,20 @@
 // Input: num = 0
 // Output: 0
 
-const addDigits = (num) => {
+const _addDigits = (num) => {
   if (num <= 9) return num;
 
   const sum = num.toString().split('').reduce((acc, n) => acc + parseInt(n), 0);
   return addDigits(sum);
+};
+
+// Follow up: Could you do it without any loop/recursion in O(1) runtime?
+// Digital root.
+const addDigits = (num) => {
+  if (num <= 9) return num;
+
+  // Subtract the num arg by one to account for multiples of 9, then we add it back for our result.
+  return 1 + (num - 1) % 9;
 };
 
 export default addDigits;
