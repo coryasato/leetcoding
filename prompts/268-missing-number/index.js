@@ -20,7 +20,7 @@
 // Explanation:
 // n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
 
-const missingNumber = (nums) => {
+const _missingNumber = (nums) => {
   const arr = new Array(nums.length+1).fill(null);
 
   nums.forEach(num => {
@@ -28,6 +28,26 @@ const missingNumber = (nums) => {
   });
 
   return arr.findIndex(n => n === null);
+};
+
+// Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+const missingNumber = (nums) => {
+  let numSum = 0;
+
+  // Sum the range of items in the array.
+  // If theres 3 items, then we want to sum 0 <> 3 (0+1+2+3) = 6.
+  for (let i = 1; i < nums.length+1; i++) {
+    numSum += i;
+  }
+
+  // Subtract the numbers that exist in the nums array.
+  for (let i = 0; i < nums.length; i++) {
+    numSum -= nums[i];
+  }
+
+  // The remaining amount will be the missing number.
+  return numSum;
+
 };
 
 export default missingNumber;
