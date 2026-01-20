@@ -24,7 +24,7 @@ const hIndex = (citations) => {
 
   const sortedCits = [...citations].sort((a, b) => (a > b ? -1 : 0));
 
-  let hIndex = 1;
+  let idx = 1;
   // After we sort from greatest to least citations per paper, once the index of the
   // item (one based indexing, not zero) is less than the citation amount, we have our h-index.
   for (let i = 1; i < sortedCits.length; i++) {
@@ -36,10 +36,10 @@ const hIndex = (citations) => {
       break;
     }
 
-    hIndex++;
+    idx++;
   }
 
-  return hIndex;
+  return idx;
 };
 
 export default hIndex;
