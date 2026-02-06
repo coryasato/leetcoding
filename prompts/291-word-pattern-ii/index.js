@@ -73,11 +73,4 @@ const wordPattern = (pattern, str) => {
   return recurse(0, 0, {}, new Set());
 };
 
-// console.log(wordPattern('abab', "redblueredblue"));
-// console.log(wordPattern('azbab', "redcblueredblue"));
-// console.log(wordPattern('abab', "redblueredbluered"));
-// console.log(wordPattern('abca', "onetwothreeone"));
-
-// FALSE
-// console.log(wordPattern('aabb', "xyzabcxzyabc"));
 export default wordPattern;
