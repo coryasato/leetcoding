@@ -31,10 +31,6 @@
 // There will be at least one element in the data structure before calling findMedian.
 // At most 5 * 104 calls will be made to addNum and findMedian.
 
-// Follow up:
-// If all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
-// If 99% of all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
-
 class MedianFinder {
   constructor() {
     this.nums = [];
@@ -93,5 +89,15 @@ class MedianFinder {
     }
   }
 };
+
+// Follow up:
+// If all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
+// If 99% of all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
+
+// 1) If there are not duplicate integers, we could allocate an 0-99 index array. Then insert the num directly into its index. We could then keep track of
+//    nums going in to assess the actual count of items and the median at the same time of insertion.
+// 2) Again, if no dupes allowed, we could use a self balancing tree and the median will be the root node or the median of the two children nodes of the root.
+//    To quicken insertion, we could cache indexes similar to database b-tree indexes.
+// 3) To allow for a 99% hit rate, we could use the options above and anything that overflows negative or positive from 0-100, they get their own overflow buckets.
 
 export default MedianFinder;
