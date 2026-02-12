@@ -28,7 +28,7 @@
 
 const getHint = (secret, guess) => {
   const bullIdxs = new Set();
-  const nonBulls = new Set();
+  const nonBulls = new Map();
   let cows = 0;
 
   for (let i = 0; i < secret.length; i++) {
@@ -38,7 +38,11 @@ const getHint = (secret, guess) => {
     if (bull === cow) {
       bullIdxs.add(i);
     } else {
-      nonBulls.add(cow);
+      if (!nonBulls.has(cow)) {
+        nonBulls.set(cow, 1);
+      } else {
+        nonBulls.set(cow, nonBulls.get(cow) + 1);
+      }
     }
   }
 
@@ -47,7 +51,11 @@ const getHint = (secret, guess) => {
 
     if (nonBulls.has(bull) && !bullIdxs.has(i)) {
       cows++;
-      nonBulls.delete(bull);
+      nonBulls.set(bull, Math.max(nonBulls.get(bull) - 1), 0);
+
+      if (nonBulls.get(bull) === 0) {
+        nonBulls.delete(bull);
+      }
     }
   }
 
