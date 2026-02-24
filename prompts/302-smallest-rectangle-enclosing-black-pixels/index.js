@@ -19,7 +19,7 @@
 
 // NOTE: Brute force attempt. Does not meet the, "less than O(mn)" constraint.
 // To meet that constraint, we're going to have to do cell traversal for each potential direction per cell.
-const smallestRect = (matrix, x, y) => {
+const _smallestRect = (matrix, x, y) => {
   let top = x;
   let bottom = x;
   let left = y;
@@ -50,7 +50,62 @@ const smallestRect = (matrix, x, y) => {
   return ((bottom - top) + 1) * ((right - left) + 1);
 };
 
-console.log(smallestRect([["0","0","1","0"],["0","1","1","0"],["0","1","0","0"]], 0, 2));
-console.log(smallestRect([["1"]], 0, 0));
+const smallestRect = (matrix, x, y) => {
+  const coords = {
+    bottom: x,
+    left: y,
+    right: y,
+    top: x,
+  };
+  const queue = [ [x, y] ];
+  const seen = new Set();
+
+  // Helper functions.
+  const createKey = (row, col) => `${row}-${col}`;
+  const enqueueCoords = (row, col) => {
+    const key = createKey(row, col);
+    // NOTE: Mind the side effects with "seen" and "queue" in scope. If buggy, revert to a pure, non-mutative function.
+    if (!seen.has(key)) {
+      queue.push([row, col]);
+    }
+  };
+
+  while (queue.length > 0) {
+    const [row, col] = queue.shift();
+    const key = createKey(row, col);
+
+    // Memoize every visited cell.
+    seen.add(key);
+
+    // Update furthers coordinates that we visit.
+    if (row < coords['top']) { coords['top'] = row; }
+
+    if (row > coords['bottom']) { coords['bottom'] = row; }
+
+    if (col < coords['left']) { coords['left'] = col; }
+
+    if (col > coords['right']) { coords['right'] = col; }
+
+    // Look around the cell and determine if an adjacent cell connects on all directions.
+    // Queue any adjacent "black pixel" cell that has not already been seen.
+    if (row > 0 && matrix[row-1] && matrix[row-1][col] === '1') {
+      enqueueCoords((row-1), col);
+    }
+
+    if (row < matrix.length && matrix[row+1] && matrix[row+1][col] === '1') {
+      enqueueCoords((row+1), col);
+    }
+
+    if (col > 0 && matrix[row][col-1] === '1') {
+      enqueueCoords(row, (col-1));
+    }
+
+    if (col < matrix[row].length && matrix[row][col+1] === '1') {
+      enqueueCoords(row, (col+1));
+    }
+  }
+
+  return ((coords['bottom'] - coords['top']) + 1) * ((coords['right'] - coords['left']) + 1);
+};
 
 export default smallestRect;
