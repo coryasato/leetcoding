@@ -57,25 +57,26 @@ const smallestRect = (matrix, x, y) => {
     right: y,
     top: x,
   };
-  const queue = [ [x, y] ];
+  const queue = [[x, y]];
   const seen = new Set();
 
   // Helper functions.
   const createKey = (row, col) => `${row}-${col}`;
+
   const enqueueCoords = (row, col) => {
     const key = createKey(row, col);
     // NOTE: Mind the side effects with "seen" and "queue" in scope. If buggy, revert to a pure, non-mutative function.
     if (!seen.has(key)) {
+      seen.add(key);
       queue.push([row, col]);
     }
   };
 
+  // Memoize the initial cell.
+  seen.add(createKey(x, y));
+
   while (queue.length > 0) {
     const [row, col] = queue.shift();
-    const key = createKey(row, col);
-
-    // Memoize every visited cell.
-    seen.add(key);
 
     // Update furthers coordinates that we visit.
     if (row < coords['top']) { coords['top'] = row; }
@@ -88,21 +89,13 @@ const smallestRect = (matrix, x, y) => {
 
     // Look around the cell and determine if an adjacent cell connects on all directions.
     // Queue any adjacent "black pixel" cell that has not already been seen.
-    if (row > 0 && matrix[row-1] && matrix[row-1][col] === '1') {
-      enqueueCoords((row-1), col);
-    }
+    if (row > 0 && matrix[row-1] && matrix[row-1][col] === '1') { enqueueCoords((row-1), col); }
 
-    if (row < matrix.length && matrix[row+1] && matrix[row+1][col] === '1') {
-      enqueueCoords((row+1), col);
-    }
+    if (row < matrix.length && matrix[row+1] && matrix[row+1][col] === '1') { enqueueCoords((row+1), col); }
 
-    if (col > 0 && matrix[row][col-1] === '1') {
-      enqueueCoords(row, (col-1));
-    }
+    if (col > 0 && matrix[row][col-1] === '1') { enqueueCoords(row, (col-1)); }
 
-    if (col < matrix[row].length && matrix[row][col+1] === '1') {
-      enqueueCoords(row, (col+1));
-    }
+    if (col < matrix[row].length && matrix[row][col+1] === '1') { enqueueCoords(row, (col+1)); }
   }
 
   return ((coords['bottom'] - coords['top']) + 1) * ((coords['right'] - coords['left']) + 1);
