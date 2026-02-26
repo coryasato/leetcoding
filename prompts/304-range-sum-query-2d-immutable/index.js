@@ -26,17 +26,31 @@
 class NumMatrix {
   constructor(matrix) {
     this.matrix = matrix;
+    this.preCalc = this.#initPreCalc(matrix);
+  }
+
+  #initPreCalc(matrix) {
+    if (matrix.length === 0 || matrix[0].length === 0) return [];
+
+    const arr = Array.from(Array(matrix.length + 1), () => Array(matrix[0].length + 1).fill(0));
+
+    matrix.forEach((row, i) => {
+      row.forEach((cell, j) => {
+        arr[i + 1][j + 1] =
+          (arr[i + 1][j] + arr[i][j + 1]) -
+          arr[i][j] +
+          cell;
+      });
+    });
+
+    return arr;
   }
 
   sumRegion(row1, col1, row2, col2) {
-    let sum = 0;
-    for (let i = row1; i <= row2; i++) {
-      for (let j = col1; j <= col2; j++) {
-        sum += this.matrix[i][j];
-      }
-    }
-
-    return sum;
+    return this.preCalc[row2 + 1][col2 + 1] -
+      this.preCalc[row1][col2 + 1] -
+      this.preCalc[row2 + 1][col1] +
+      this.preCalc[row1][col1];
   }
 };
 
