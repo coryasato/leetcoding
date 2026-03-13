@@ -26,16 +26,7 @@ const isAdditiveNumber = (num) => {
   let res = false;
 
   const recurse = (left, right, numStr) => {
-    if (numStr.length === 0) {
-      res = true;
-      return;
-    }
-
-    if (right >= numStr.length) {
-      return;
-    }
-
-    if (left >= numStr.length) {
+    if (left >= numStr.length || right >= numStr.length) {
       return;
     }
 
@@ -45,26 +36,35 @@ const isAdditiveNumber = (num) => {
       const rest = numStr.slice(right);
       const sumStr = (Number(leftNumStr) + Number(rightNumStr)).toString();
 
+      // If the rest of numStr is our sum, then we've found a complete match.
       if (rest.length > 0 && rest === sumStr) {
-        recurse(left, right, '');
+        res = true;
         return;
-      } else if (rest.startsWith(sumStr)) {
+      }
+
+      // If the next n amount of chars starts with our sumStr, then we have a match.
+      // We move the cursors forward and slice the leftNumStr (left most "number")  from numStr.
+      if (rest.startsWith(sumStr)) {
         const nextLeft = rightNumStr.length;
         const nextRight = nextLeft + sumStr.length;
         recurse(nextLeft, nextRight, numStr.slice(leftNumStr.length));
       } else {
+
         if (right >= numStr.length) {
+          // When the right cursor is at the end of numStr, we move the left cursor forward and reset the right cursor.
+          // This will start a new branch for the leftNumStr slice range.
           recurse(left+1, left+2, numStr);
         } else {
+          // Move the right cursor forward in the current leftNumStr branch.
+          // This makes the rightNumStr select more chars per iteration, incrementing the slice range.
           recurse(left, right+1, numStr);
         }
-      }
 
+      }
     }
   };
 
   recurse(1, 2, num);
-
   return res;
 };
 
