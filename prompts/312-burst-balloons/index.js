@@ -17,10 +17,12 @@
 // Input: nums = [1,5]
 // Output: 10
 
+import permutations from "../../helpers/perm-generator";
+
 // NOTE: Quick and dirty O(n2) that naively finds the best score per loop determining on how many "1"s
 // surround a particular index. For each loop, the index with the lowest "1"s in its product will be
 // weighted as the best possible index to take.
-const maxCoins = (nums) => {
+const _maxCoins = (nums) => {
   let sum = 0;
   let balloons = nums;
 
@@ -44,6 +46,32 @@ const maxCoins = (nums) => {
   }
 
   return sum;
+};
+
+// NOTE: Second solution.
+// Gather all permutations of indices and sum their postions. This calculates every possible orientation.
+const maxCoins = (nums) => {
+  const idxs = Array.from(Array(nums.length), (_, i) => i);
+  let maxSum = 0;
+
+  for (const perm of permutations(idxs)) {
+    let offset = 0;
+    let numsCopy = [...nums];
+    let sum = 0;
+
+    for (let i = 0; i < perm.length; i++) {
+      const idx = Math.max(perm[i] - offset, 0);
+      const score = (numsCopy[idx-1] || 1) * numsCopy[idx] * (numsCopy[idx+1] || 1);
+
+      sum += score;
+      numsCopy = numsCopy.slice(0, idx).concat(numsCopy.slice(idx+1));
+      offset++;
+    }
+
+    maxSum = Math.max(maxSum, sum);
+  }
+
+  return maxSum;
 };
 
 export default maxCoins;
