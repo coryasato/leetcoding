@@ -11,7 +11,7 @@
 // Output: "acdb"
 
 // NOTE: Quick and brute solution.
-const _removeDuplicateLetters = s => {
+const __removeDuplicateLetters = s => {
   let lowestCharCode = Number.MAX_SAFE_INTEGER;
   let lowestIdx = Number.MAX_SAFE_INTEGER;
 
@@ -35,7 +35,7 @@ const _removeDuplicateLetters = s => {
 
 // NOTE: Sequentially creates "branches" per letter. Similar to recusively creating stacks of potential results, but linear.
 // The inner loop per letter is slow.
-const removeDuplicateLetters = s => {
+const _removeDuplicateLetters = s => {
   const uniqueLetters = new Set();
 
   let entries = [];
@@ -57,6 +57,37 @@ const removeDuplicateLetters = s => {
   });
 
   return [...result].join('');
+};
+
+const removeDuplicateLetters = s => {
+  const lastIdxPerLetter = new Map();
+
+  for (let i = 0; i < s.length; i++) {
+    lastIdxPerLetter.set(s[i], i);
+  }
+
+  const stack = [];
+  const seen = new Set();
+
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+
+    if (seen.has(char)) continue;
+
+    while (
+      stack.length > 0 &&
+      stack.at(-1).charCodeAt() > char.charCodeAt() &&
+      lastIdxPerLetter.get(stack.at(-1)) > i
+    ) {
+      const popped = stack.pop();
+      seen.delete(popped)
+    }
+
+    stack.push(char);
+    seen.add(char);
+  }
+
+  return stack.join('');
 };
 
 export default removeDuplicateLetters;
