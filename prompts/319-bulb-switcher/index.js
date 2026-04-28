@@ -23,8 +23,11 @@
 // Input: n = 1
 // Output: 1
 
+// NOTE: There is likely a quick math solution for this.
+
+//  Brute solution.
 const bulbSwitch = (n) => {
-  let bulbs = Array(n).fill(false);
+  const bulbs = Array(n).fill(false);
 
   for (let i = 0; i < bulbs.length; i++) {
     for (let j = i; j < bulbs.length; (j += (1+i))) {
