@@ -18,7 +18,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> [i32; 2] {
         map.insert(remainder, i as i32);
     }
 
-    return res;
+    res
 }
 
 #[cfg(test)]

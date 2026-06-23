@@ -2,10 +2,14 @@
   "name": "leetcoding",
   "module": "index.js",
   "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.5.2"
+    "typescript": "^7.0.1-rc"
   }
 }

@@ -1,4 +1,4 @@
-/** 
+/**
 Two Sum  - https://leetcode.com/problems/two-sum/
 
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -24,15 +24,15 @@ Output: [0,1]
 
 
 // 0(n2)
-// Wonder if theres a faster solution using a hash table or something? 
-const twoSum = (nums, target) => {
-  let res = [];
+// Wonder if theres a faster solution using a hash table or something?
+const twoSum = (nums: readonly number[], target: number): number[] => {
+  let res: number[] = [];
 
-  for (let i = 0; i <= nums.length-1; i++) {
-    const currNum = nums[i];
+  for (let i = 0; i < nums.length; i++) {
+    const currNum = nums[i]!;
 
-    for (let j = i+1; j <= nums.length-1; j++) {
-      const nextNum = nums[j];      
+    for (let j = i+1; j < nums.length; j++) {
+      const nextNum = nums[j]!;
 
       if (currNum + nextNum === target) {
         res = [i, j];
@@ -44,10 +44,10 @@ const twoSum = (nums, target) => {
   return res;
 };
 
-/** 
+/**
 console.log(twoSum([2,7,11,15], 9));
 console.log(twoSum([3,2,4], 6));
-console.log(twoSum([3,3], 6)); 
+console.log(twoSum([3,3], 6));
 */
 
 export default twoSum;
