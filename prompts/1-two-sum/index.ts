@@ -30,7 +30,7 @@ const twoSum = (nums: readonly number[], target: number): number[] => {
     const num = nums[i]!;
 
     if (num in map) {
-      res = [map[num], i];
+      res = [map[num]!, i];
       break;
     }
 
