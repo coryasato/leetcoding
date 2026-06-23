@@ -22,32 +22,23 @@ Input: nums = [3,3], target = 6
 Output: [0,1]
 */
 
-
-// 0(n2)
-// Wonder if theres a faster solution using a hash table or something?
 const twoSum = (nums: readonly number[], target: number): number[] => {
-  let res: number[] = [];
+  const map: Record<string, number> = {};
+  let res: [number, number] = [-1, -1];
 
   for (let i = 0; i < nums.length; i++) {
-    const currNum = nums[i]!;
+    const num = nums[i]!;
 
-    for (let j = i+1; j < nums.length; j++) {
-      const nextNum = nums[j]!;
-
-      if (currNum + nextNum === target) {
-        res = [i, j];
-        break;
-      }
+    if (num in map) {
+      res = [map[num], i];
+      break;
     }
+
+    const remaining = target - num;
+    map[remaining] = i;
   }
 
   return res;
 };
-
-/**
-console.log(twoSum([2,7,11,15], 9));
-console.log(twoSum([3,2,4], 6));
-console.log(twoSum([3,3], 6));
-*/
 
 export default twoSum;
