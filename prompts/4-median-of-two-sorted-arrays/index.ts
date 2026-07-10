@@ -25,7 +25,7 @@
  * This is because the function creates a new array by concatenating the two input arrays, which takes up O(n) space.
  * Additionally, the function creates a new variable to store the index of the median element, which takes up O(1) space.
  */
-export const slowMedOfArrays = (n1: number[], n2: number[]): number => {
+export const slowMedOfArrays = (n1: readonly number[], n2: readonly number[]): number => {
   const n3 = n1.concat(n2).sort();
   const medianIdx = Math.floor(n3.length / 2);
 
@@ -45,7 +45,7 @@ export const slowMedOfArrays = (n1: number[], n2: number[]): number => {
  * This is because we create a new array to store the merged and sorted elements of both input arrays.
  * The size of this new array will be equal to the sum of the lengths of the two input arrays.
  */
-const findMedianSortedArrays = (n1: number[], n2: number[]): number => {
+const findMedianSortedArrays = (n1: readonly number[], n2: readonly number[]): number => {
   const totalLen = n1.length + n2.length;
   const medianIdx = Math.floor(totalLen / 2);
   let sortedArr: number[] = [];

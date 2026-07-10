@@ -4,7 +4,7 @@ import findMedianSortedArrays, {slowMedOfArrays} from './index';
 const cases = [
   [[1,3], [2], 2],
   [[1,2], [3,4], 2.5],
-];
+] as const;
 
 describe("findMedianSortedArrays", () => {
   test.each(cases)("%p, %p should contain values %p", (a, b, expected) => {
