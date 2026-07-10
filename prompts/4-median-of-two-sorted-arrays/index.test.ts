@@ -6,8 +6,6 @@ const cases = [
   [[1,2], [3,4], 2.5],
 ];
 
-// TODO: Time these with large arrays.
-
 describe("findMedianSortedArrays", () => {
   test.each(cases)("%p, %p should contain values %p", (a, b, expected) => {
     expect(findMedianSortedArrays(a, b)).toEqual(expected);
