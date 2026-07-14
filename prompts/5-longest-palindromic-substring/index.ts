@@ -16,47 +16,59 @@
  *
  */
 
-// NOTE: This will not work with spaces. The constraints list digits and English letters only.
-// The split and reverse ops here will slow this algo down considerably.
-const isPalindrome = (str: string) => {
-  const len = str.length;
-  const half = Math.floor(len / 2);
+const _isPalindrome = (str: string) => {
+  let i = 0;
+  let j = str.length-1;
+  let res = true;
 
-  const first = str.slice(0, half);
-  const second = len % 2 === 0 ? str.slice(half) : str.slice(half+1);
+  while (i < j) {
+    if (str[i] !== str[j]) {
+      res = false;
+      break;
+    }
+    i++;
+    j--;
+  }
 
-  return first === second.split('').reverse().join('');
+  return res;
 };
 
 const longestPalindrome = (str: string) => {
-  const entries = [];
-  let temp = '';
+  const charMap = new Map<string, number[]>();
+  const candidates = new Set<[number, number]>();
+  let res = '';
 
-  // For each letter, shoot across the string to find a match, pluck the substring and verify if its a palindrome.
-  // If the substring is odd, halve the string, ignore the pivot and see if the first half matches the second half in reverse.
-  // TODO: For a faster version, we're likely going to need a map and some math.
-  for (let i = 0; i <= str.length-1; i++) {
-    const char = str[i];
-    temp += char;
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i]!;
 
-    for (var j = i + 1; j <= str.length-1; j++) {
-      const nextChar = str[j];
-      temp += nextChar;
+    if (charMap.has(char)) {
+      const charIdxs = charMap.get(char)!;
 
-      if (char === nextChar) {
-        // Found a palindrome?
-        if (isPalindrome(temp)) { entries.push(temp); }
-        temp = '';
-        break;
-      } else if (j === str.length-1) {
-        // The character does not repeat in the string, reset the temp var.
-        temp = '';
+      if (charIdxs.length < 2) {
+        candidates.add([charIdxs[0]!, i]);
+      } else {
+        // NOTE: When there are multiple indices, we need to check them all. We could do a quick math
+        // check to see if the delta between indexes repeat to be valid, but this is good for now.
+        charIdxs.forEach((idx: number) => {
+          candidates.add([idx, i]);
+        });
       }
+
+      charMap.set(char, charIdxs.concat(i));
+    } else {
+      charMap.set(char, [i]);
     }
   }
 
-  // TODO: We can use another variable for the answer and check the length for newly found palindromes to update it.
-  return entries.sort((a, b) => a.length > b.length ? -1 : 1)[0];
+  candidates.forEach((candidate: number[]) => {
+    const substr = str.slice(candidate[0], (candidate[1]!+1));
+
+    if (_isPalindrome(substr) && substr.length > res.length) {
+      res = substr;
+    }
+  });
+
+  return res;
 };
 
 export default longestPalindrome;
