@@ -18,7 +18,7 @@
 
 // NOTE: This will not work with spaces. The constraints list digits and English letters only.
 // The split and reverse ops here will slow this algo down considerably.
-const isPalindrome = str => {
+const isPalindrome = (str: string) => {
   const len = str.length;
   const half = Math.floor(len / 2);
 
@@ -27,7 +27,8 @@ const isPalindrome = str => {
 
   return first === second.split('').reverse().join('');
 };
-const longestPalindrome = str => {
+
+const longestPalindrome = (str: string) => {
   const entries = [];
   let temp = '';
 

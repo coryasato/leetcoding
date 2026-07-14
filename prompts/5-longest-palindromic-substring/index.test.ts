@@ -6,7 +6,7 @@ const cases = [
   ["cbbd", "bb"],
   ["adadeifiedboob", "deified"],
   ["assacivic12344321", "12344321"],
-];
+] as const;
 
 describe("longestPalindrome", () => {
   test.each(cases)("%p should contain values %p", (a, expected) => {
