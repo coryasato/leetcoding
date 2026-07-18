@@ -43,9 +43,11 @@ pub fn longest_palindrome(text: &str) -> &str {
 
     for (idx, &c) in chars.iter().enumerate() {
         if let Some(char_idxs) = char_map.get_mut(&c) {
-            if char_idxs.len() < { 2 as usize } {
+            if char_idxs.len() < 2 {
                 candidates.push((char_idxs[0], idx));
             } else {
+                // For each previous index per char, create range tuples for the prior indices
+                // and the current index as any could be a possible candidate.
                 for &char_idx in char_idxs.iter() {
                     candidates.push((char_idx, idx));
                 }
@@ -57,8 +59,8 @@ pub fn longest_palindrome(text: &str) -> &str {
         }
     }
 
-    for (start, end) in &candidates {
-        if let Some(sub_str) = text.get(*start..*end + 1) {
+    for (start, end) in candidates {
+        if let Some(sub_str) = text.get(start..end + 1) {
             if is_palindrome(sub_str) && sub_str.len() > res.len() {
                 res = sub_str;
             }
