@@ -29,7 +29,7 @@
 
 // NOTE: This vastly improves the previous strategy, but I think we can do better here. See if we can remove the need for the inner loops.
 const convert = (s: string, numRows: number) => {
-  const zigZagStepNm = Math.floor(numRows / 2);  // This represent how many letters to traverse diagonally upwards, from left to right.
+  const zigZagStepNm = Math.floor(numRows / 2);  // This represents how many letters to traverse diagonally upwards, from left to right.
   let bucket: string[] = Array.from(Array(numRows), () => '');
 
   let i = 0;
