@@ -24,7 +24,7 @@
 // I used the Hex shortcut for the max32BitInt which ignores (integer range [-231, 231 - 1]) in the prompt. To remedy this,
 // simply "sign" the i32 var and check if the int exceeds the negative bound when "sign" is -1 AND conditinally check if the int exceeds the upper bound minus one before
 // returning the result.
-const reverseIntegerWithComments = (x) => {
+const _reverseIntegerWithComments = (x: number) => {
   const sign = Math.sign(x);  // Returns 1 or -1
   const max32BitInt = 0x7FFFFFFF;  // The largest i32 value allowed in Hexedecimal (Math.pow(2, 31) === 2147483648)
 
@@ -49,8 +49,7 @@ const reverseIntegerWithComments = (x) => {
   return (res > max32BitInt) ? 0 : (res * sign);
 };
 
-// MAIN FN
-const reverseInteger = (x) => {
+const reverseInteger = (x: number) => {
   const sign = Math.sign(x);
   const max32BitInt = 0x7FFFFFFF;
 

@@ -7,7 +7,7 @@ const cases = [
   [120, 21],
   [1234567899, 0],
   [-1234567892, 0],
-];
+] as const;
 
 describe("reverseInteger", () => {
   test.each(cases)("%p should contain values %p", (a, expected) => {
