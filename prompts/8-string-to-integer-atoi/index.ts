@@ -2,10 +2,10 @@
 // Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
 // The algorithm for myAtoi(string s) is as follows:
 
-// Whitespace: Ignore any leading whitespace (" ").
-// Signedness: Determine the sign by checking if the next character is '-' or '+', assuming positivity if neither present.
-// Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the string is reached. If no digits were read, then the result is 0.
-// Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should be rounded to 231 - 1.
+// 1) Whitespace: Ignore any leading whitespace (" ").
+// 2) Signedness: Determine the sign by checking if the next character is '-' or '+', assuming positivity if neither present.
+// 3) Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the string is reached. If no digits were read, then the result is 0.
+// 4) Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should be rounded to 231 - 1.
 // Return the integer as the final result.
 
 // Example 1:
@@ -56,26 +56,42 @@
 // Explanation:
 // Reading stops at the first non-digit character 'w'.
 
-const myAtoi = (str) => {
-  const REG_EX = /\d|\-/;
-  const STRICT_DIGIT_REG = /\d/;
+const myAtoi = (str: string): number => {
+  const MAX_i32 = 2147483647;
 
+  let padding = 0;
   let res = '';
+  let sign = 1;
 
   for (let i = 0; i <= str.length-1; i++) {
-    const char = str[i];
+    const char = str[i]!;
 
-    // If we already have a sign or digit in the answer and there is a non-digit following, break the loop, we are done.
-    if (res.length > 0 && !STRICT_DIGIT_REG.test(char)) { break; }
-
-    if (REG_EX.test(char)) {
-      res += char;
+    // Capture negative sign if its starts a legal integer sequence.
+    if (res.length === 0 && padding === 0 && (char === '-' || char === '+')) {
+      sign = char === '-' ? -1 : 1;
+      continue;
     }
+
+    // Ignore leading whitespaces and zeroes.
+    // Track a padding count to inform us of any leading zeroes. This will help us determine illegal future signs.
+    if (res.length === 0 && (char === ' ' || char === '0')) {
+      if (char === '0') {
+        padding += 1;
+      }
+      continue;
+    }
+
+    // End loop when we hit a non digit char. Whitespaces are only allowed when the res var is empty.
+    if (isNaN(Number(char)) || char === ' ') break;
+
+    res += char;
   }
 
-  // Convert to Int and bitwise OR for a signed 32 int. The bitwise will return 0 if parseInt returns NaN.
-  // NaN is a possibility if the Input: s = "--1337" and res = "-" because of the duplicate negative sign / dash.
-  return parseInt(res, 10) | 0;
+  const posNum = Number(res);
+
+  if (res === '' || isNaN(posNum)) return 0;
+
+  return (posNum > MAX_i32) ? (sign * MAX_i32) : (sign * posNum);
 };
 
 export default myAtoi;
