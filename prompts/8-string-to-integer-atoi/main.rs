@@ -1,3 +1,5 @@
+use std::num::IntErrorKind;
+
 fn my_atoi(s: &str) -> i32 {
     let chars: Vec<char> = s.chars().collect();
     let mut padding = false;
@@ -16,7 +18,7 @@ fn my_atoi(s: &str) -> i32 {
         // 1) Ignore leading whitespaces and zeroes.
         // 2) Track a padding count to inform us of any leading zeroes. This will help us determine illegal future signs.
         if res.len() == 0 && (ch == " " || ch == "0") {
-            if ch == "0" && !padding {
+            if ch == "0" && padding == false {
                 padding = true;
             }
             continue;
@@ -27,26 +29,14 @@ fn my_atoi(s: &str) -> i32 {
             break;
         }
 
-        // TODO: Remove trim hack.
-        res += ch.trim();
+        res += &*ch;
     }
 
-    // TODO: See if we can handle this in a match along with the note below on line 37.
-    if res.is_empty() {
-        return 0;
+    match res.trim().parse::<i32>() {
+        Ok(n) => n * sign,
+        Err(e) if matches!(e.kind(), IntErrorKind::PosOverflow) => i32::MAX * sign,
+        Err(_) => 0,
     }
-
-    // TODO: Consider using a match and early return in the error block.
-    // We do know that only digits can make it this far, however we should still check if
-    // the parse errors because of an i32 overflow or something else. Right now we're assuming
-    // if pos_num is 0 then we had an overflow. This is brittle.
-    let pos_num: i32 = res.trim().parse::<i32>().unwrap_or(0);
-
-    if pos_num == 0 {
-        return i32::MAX * sign;
-    }
-
-    pos_num * sign
 }
 
 #[cfg(test)]
