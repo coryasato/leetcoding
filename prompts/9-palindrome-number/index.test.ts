@@ -8,7 +8,7 @@ const cases = [
   [11, true],
   [4206996024, true],
   [116600, false],
-];
+] as const;
 
 describe("palindrome_number", () => {
   test.each(cases)("%p should contain values %p", (a, expected) => {

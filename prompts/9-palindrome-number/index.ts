@@ -16,7 +16,7 @@
 // Output: false
 // Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
 
-const isPalindrome = (x) => {
+const isPalindrome = (x: number) => {
   if (x < 0 || x < 11) return false;
 
   const len = Math.ceil(Math.log10(x + 1));
