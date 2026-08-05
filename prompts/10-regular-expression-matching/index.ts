@@ -22,7 +22,7 @@
 // Output: true
 // Explanation: ".*" means "zero or more (*) of any character (.)".
 
-const isMatch = (str, ptrn) => {
+const isMatch = (str: string, ptrn: string) => {
   if (ptrn === '.*') return true;
 
   let a = 0;

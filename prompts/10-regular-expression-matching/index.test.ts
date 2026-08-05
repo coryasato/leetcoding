@@ -7,7 +7,7 @@ const cases = [
   ['ab', '.*', true],
   ['abbbbbbc', 'ab*c*', true],
   ['ab', 'abc', false]
-];
+] as const;
 
 describe("reg_ex_matching", () => {
   test.each(cases)("%p should contain values %p", (a, b, expected) => {
