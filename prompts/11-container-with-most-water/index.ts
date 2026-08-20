@@ -16,19 +16,18 @@
 // Input: height = [1,1]
 // Output: 1
 
-const maxArea = (height) => {
+const maxArea = (height: number[]) => {
   let a = 0;
   let b = height.length-1;
   let res = 0;
 
-  for (let i = 0; i < height.length-1; i++) {
-    const front = height[a];
-    const back = height[b];
-    const area = ((b-a) * Math.min(front, back));
+  while (a < b) {
+    const front = height[a]!;
+    const back = height[b]!;
+    const area = ((b - a) * Math.min(front, back));
 
     res = Math.max(res, area);
 
-    // The equal operator is important here to nudge things forward for cases like: [1,4,2,4,1].
     if (front <= back) {
       a += 1;
     } else {
